@@ -24,9 +24,7 @@ class Reader
     public function getFiles(): array
     {
         chdir($this->path);
-        exec('find . -type f -name *.md', $output);
-        print_r($output);exit;
-
-        return explode("\n", $output);
+        exec('find '.$this->path.' -type f -name \*.md', $output);
+        return $output;
     }
 }

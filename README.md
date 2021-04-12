@@ -1,14 +1,19 @@
 # Shopware courseware client
-This repository contains a client for the Shopware courseware. Note that this repository does not
-contain any actual courseware.
+This repository contains a client for the Shopware courseware. Note that this repository does not contain any actual courseware.
 
 ## Setup
-Fire up a webserver under `pub/` and then visit its content. For example, navigate into `pub/`, run `php -S localhost:4000` and then visit the URL http://localhost:4000/. You can switch between the Presenter Mode (press `P`) and the normal mode (again press `P`).
+Checkout this repository and the private repository [yireo-shopware6/shopware-courseware](https://github.com/yireo-shopware6/shopware-courseware) along side each other in the same parent folder.
 
-Optionally copy the `config.php.dist` file to `config.php` and modify it at will. You can then point the client towards the courseware contained in the repository [yireo-shopware6/shopware-courseware](https://github.com/yireo-shopware6/shopware-courseware) for instance (which is a private repository).
+Copy the `config.php.dist` file to `config.php` and point the `courseware_dir` variable towards the root of the other repository.
 
-## Why?
-This little playground attempts to consolidate work on the [Shopware Gitbook docs](https://shopware.gitbook.io/docs/) and upcoming training material developed by Rico Neitzel and Jisse Reitsma.
+Next, within this repository, install all dependencies:
+
+    composer install
+
+## Running the client
+Fire up a webserver under `pub/` and then visit its content. For example, navigate into `pub/`, run `php -S localhost:4000` and then visit the URL http://localhost:4000/. This shows an overview of chapters. If you click upon the chapter link, the chapter opens up in the RemarkJS-based slideshow.
+
+You can switch between the Presenter Mode (press `P`) and the normal mode (again press `P`).
 
 ## Workings
 - The webserver loads a simple HTML page (`pub/index.php`) with https://github.com/gnab/remark

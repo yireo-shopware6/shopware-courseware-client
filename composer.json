@@ -1,0 +1,16 @@
+{
+    "name": "yireo-shopware6/shopware-courseware-client",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Jisse Reitsma",
+            "email": "jisse@yireo.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Shopware\\": "lib/Shopware"
+        }
+    }
+}
