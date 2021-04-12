@@ -1,0 +1,4 @@
+<?php
+return [
+    'courseware_dir' => __DIR__ . '/courseware-sample'
+];

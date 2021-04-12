@@ -1,5 +1,11 @@
-# Proof of Concept: Shopware courseware client
-This repository contains a proof-of-concept client for the Shopware courseware. Fire up a webserver under `pub/` and then visit its content. For example, navigate into `pub/`, run `php -S localhost:4000` and then visit the URL http://localhost:4000/. You can switch between the Presenter Mode (press `P`) and the normal mode (again press `P`).
+# Shopware courseware client
+This repository contains a client for the Shopware courseware. Note that this repository does not
+contain any actual courseware.
+
+## Setup
+Fire up a webserver under `pub/` and then visit its content. For example, navigate into `pub/`, run `php -S localhost:4000` and then visit the URL http://localhost:4000/. You can switch between the Presenter Mode (press `P`) and the normal mode (again press `P`).
+
+Optionally copy the `config.php.dist` file to `config.php` and modify it at will.
 
 ## Why?
 This little playground attempts to consolidate work on the [Shopware Gitbook docs](https://shopware.gitbook.io/docs/) and upcoming training material developed by Rico Neitzel and Jisse Reitsma.

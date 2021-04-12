@@ -1,6 +1,7 @@
 <?php
+$config = include(dirname(__DIR__) . '/utils/config.php');
 $file = $_GET['file'];
-$content = file_get_contents(__DIR__ . '/../courseware/' . $file);
+$content = file_get_contents($config['courseware_dir'] . '/' . $file);
 $content = parseInstructions($content);
 
 function parseInstructions(string $content): string
