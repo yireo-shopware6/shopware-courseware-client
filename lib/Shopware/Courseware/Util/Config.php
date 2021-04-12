@@ -12,12 +12,43 @@ class Config
     private $basePath;
 
     /**
-     * Config constructor.
-     * @param string $basePath
+     * @var array
      */
-    public function __construct(string $basePath)
+    private $data = [];
+
+    /**
+     * @var Config
+     */
+    private static $instance = null;
+
+    /**
+     * @return Config|null
+     */
+    public static function getInstance()
+    {
+        if (self::$instance == null) {
+            self::$instance = new Config();
+        }
+
+        return self::$instance;
+    }
+
+    /**
+     * @param string $basePath
+     * @return $this
+     */
+    public function setBasePath(string $basePath): Config
     {
         $this->basePath = $basePath;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBasePath(): string
+    {
+        return $this->basePath;
     }
 
     /**
@@ -26,6 +57,10 @@ class Config
      */
     public function get(): array
     {
+        if (!empty($this->data)) {
+            return $this->data;
+        }
+
         $customConfigFile = $this->basePath . '/config.php';
         $defaultConfigFile = $this->basePath . '/config.php.dist';
         $configFile = (file_exists($customConfigFile)) ? $customConfigFile : $defaultConfigFile;
@@ -35,7 +70,8 @@ class Config
             throw new Exception('Courseware directory does not exist');
         }
 
-        return $config;
+        $this->data = $config;
+        return $this->data;
     }
 
     /**

@@ -2,9 +2,9 @@
 ini_set('display_errors', '1');
 
 use Shopware\Courseware\Util\Config;
-use Shopware\Courseware\Util\Reader;
+use Shopware\Courseware\Filesystem\Reader;
 
 require_once 'vendor/autoload.php';
 
-$config = new Config(__DIR__);
+$config = Config::getInstance()->setBasePath(__DIR__);
 $reader = new Reader($config->getCoursewareDir());
