@@ -1,7 +1,13 @@
 <?php
-$config = include(dirname(__DIR__) . '/utils/config.php');
+
+$config = include(dirname(__DIR__) . '/util/config.php');
 $file = $_GET['file'];
-$content = file_get_contents($config['courseware_dir'] . '/' . $file);
+$absoluteFile = $config['courseware_dir'] . '/' . $file;
+if (!is_file($absoluteFile)) {
+    throw new Exception('Course file "'.$absoluteFile.'" not found');
+}
+
+$content = file_get_contents($absoluteFile);
 $content = parseInstructions($content);
 
 function parseInstructions(string $content): string

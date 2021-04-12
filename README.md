@@ -5,7 +5,7 @@ contain any actual courseware.
 ## Setup
 Fire up a webserver under `pub/` and then visit its content. For example, navigate into `pub/`, run `php -S localhost:4000` and then visit the URL http://localhost:4000/. You can switch between the Presenter Mode (press `P`) and the normal mode (again press `P`).
 
-Optionally copy the `config.php.dist` file to `config.php` and modify it at will.
+Optionally copy the `config.php.dist` file to `config.php` and modify it at will. You can then point the client towards the courseware contained in the repository [yireo-shopware6/shopware-courseware](https://github.com/yireo-shopware6/shopware-courseware) for instance (which is a private repository).
 
 ## Why?
 This little playground attempts to consolidate work on the [Shopware Gitbook docs](https://shopware.gitbook.io/docs/) and upcoming training material developed by Rico Neitzel and Jisse Reitsma.

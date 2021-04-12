@@ -1,20 +1,12 @@
 <?php
-$file = 'installation/overview.md';
+include_once __DIR__ . '/../app.php';
 ?>
-<!DOCTYPE html>
 <html>
-<head>
-    <title>Title</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="/css/style.css"/>
-</head>
 <body>
-<textarea id="source"></textarea>
-<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-<script>
-    var slideshow = remark.create({
-        sourceUrl: '/ajax.php?file=<?= $file ?>'
-    });
-</script>
+<ul>
+    <?php foreach ($reader->getFiles() as $file): ?>
+    <li><?= $file ?></li>
+    <?php endforeach ?>
+</ul>
 </body>
 </html>
