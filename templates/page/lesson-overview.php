@@ -10,7 +10,9 @@ $course = $reader->getCourseById($courseId);
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Lessons</th>
+        <th>Lesson</th>
+        <th>Course</th>
+        <th>Chapter</th>
         <th>Status</th>
     </tr>
     </thead>
@@ -18,6 +20,8 @@ $course = $reader->getCourseById($courseId);
     <?php foreach ($course->getLessons() as $lesson): ?>
         <tr>
             <td><a href="index.php?page=slide&type=lesson&id=<?= $lesson->getId() ?>"><?= $lesson->getTitle() ?></td>
+            <td><?= $lesson->getCourse()->getTitle() ?></td>
+            <td><?= $lesson->getChapter()->getTitle() ?></td>
             <td style="background-color: <?= $lesson->getStatus()->getColor() ?>"><?= $lesson->getStatus()->getLabel() ?></td>
         </tr>
     <?php endforeach ?>

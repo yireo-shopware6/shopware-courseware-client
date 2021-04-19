@@ -13,7 +13,7 @@ class Chapter extends AbstractEntity
      */
     public function getLessons(): array
     {
-        return Reader::getInstance()->getLessonsByChapterId($this->getId());
+        return Reader::getInstance()->getLessonsByIdMatch($this->getId());
     }
 
     /**

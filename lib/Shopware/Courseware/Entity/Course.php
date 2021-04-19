@@ -22,7 +22,7 @@ class Course extends AbstractEntity
      */
     public function getLessons(): array
     {
-        return Reader::getInstance()->getLessonsByCourseId($this->getId());
+        return Reader::getInstance()->getLessonsByIdMatch($this->getId());
     }
 
     /**
