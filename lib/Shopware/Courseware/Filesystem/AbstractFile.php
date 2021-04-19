@@ -55,4 +55,16 @@ abstract class AbstractFile
     {
         return $this->filename;
     }
+
+    /**
+     * @return string
+     */
+    public function getContents(): string
+    {
+        if (!file_exists($this->filename)) {
+            return '';
+        }
+
+        return (string)file_get_contents($this->filename);
+    }
 }

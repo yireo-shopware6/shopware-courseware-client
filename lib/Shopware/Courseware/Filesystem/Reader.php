@@ -68,8 +68,10 @@ class Reader
 
         $jsonFiles = [];
         foreach ($files as $file) {
-            $jsonFiles[] = new JsonFile($file);
+            $jsonFiles[$file] = new JsonFile($file);
         }
+
+        ksort($jsonFiles);
 
         return $jsonFiles;
     }
@@ -89,6 +91,26 @@ class Reader
         }
 
         return $courses;
+    }
+
+    /**
+     * @param string $courseId
+     * @return Course
+     * @throws Exception
+     */
+    public function getCourseById(string $courseId): Course
+    {
+        foreach ($this->getJsonFiles() as $jsonFile) {
+            if ($jsonFile->getType() !== 'course') {
+                continue;
+            }
+
+            if (!strstr($jsonFile->getRelativePath(), $courseId)) {
+                continue;
+            }
+
+            return new Course($jsonFile, $jsonFile->getMarkdownFile());
+        }
     }
 
     /**
@@ -115,6 +137,49 @@ class Reader
     }
 
     /**
+     * @param string $chapterId
+     * @return Chapter
+     * @throws Exception
+     */
+    public function getChapterById(string $chapterId): Chapter
+    {
+        foreach ($this->getJsonFiles() as $jsonFile) {
+            if ($jsonFile->getType() !== 'chapter') {
+                continue;
+            }
+
+            if (!strstr($jsonFile->getRelativePath(), $chapterId)) {
+                continue;
+            }
+
+            return new Chapter($jsonFile, $jsonFile->getMarkdownFile());
+        }
+    }
+
+    /**
+     * @param string $chapterId
+     * @return Lesson[]
+     * @throws Exception
+     */
+    public function getLessonsByChapterId(string $chapterId): array
+    {
+        $lessons = [];
+        foreach ($this->getJsonFiles() as $jsonFile) {
+            if ($jsonFile->getType() !== 'lesson') {
+                continue;
+            }
+
+            if (!strstr($jsonFile->getRelativePath(), $chapterId)) {
+                continue;
+            }
+
+            $lessons[] = new Lesson($jsonFile, $jsonFile->getMarkdownFile());
+        }
+
+        return $lessons;
+    }
+
+    /**
      * @param string $courseId
      * @return Lesson[]
      * @throws Exception
@@ -135,5 +200,25 @@ class Reader
         }
 
         return $lessons;
+    }
+
+    /**
+     * @param string $lessonId
+     * @return Lesson
+     * @throws Exception
+     */
+    public function getLessonById(string $lessonId): Lesson
+    {
+        foreach ($this->getJsonFiles() as $jsonFile) {
+            if ($jsonFile->getType() !== 'lesson') {
+                continue;
+            }
+
+            if (!strstr($jsonFile->getRelativePath(), $lessonId)) {
+                continue;
+            }
+
+            return new Lesson($jsonFile, $jsonFile->getMarkdownFile());
+        }
     }
 }

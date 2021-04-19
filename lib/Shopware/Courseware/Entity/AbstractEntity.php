@@ -5,6 +5,7 @@ namespace Shopware\Courseware\Entity;
 use Exception;
 use Shopware\Courseware\Filesystem\JsonFile;
 use Shopware\Courseware\Filesystem\MarkdownFile;
+use Shopware\Courseware\Util\Status;
 
 abstract class AbstractEntity
 {
@@ -67,10 +68,10 @@ abstract class AbstractEntity
     }
 
     /**
-     * @return string
+     * @return Status
      */
-    public function getStatus()
+    public function getStatus(): Status
     {
-        return $this->getJsonFile()->getStatus();
+        return new Status($this->getJsonFile()->getStatus() ?? 'draft');
     }
 }
