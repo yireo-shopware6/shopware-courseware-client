@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
+
 use Shopware\Courseware\Filesystem\Reader;
 
 /** @var Reader $reader */
-$this->layout('layout/default');
+$this->layout('layout/default', ['title' => 'Lesson overview']);
 $courseId = $_GET['course_id'];
 $course = $reader->getCourseById($courseId);
 ?>
-<h1>Course "<?= $course->getTitle() ?>" - Lessons</h1>
+<h1>Lessons of "<?= $course->getTitle() ?>"</h1>
 <table class="table table-striped">
     <thead>
     <tr>

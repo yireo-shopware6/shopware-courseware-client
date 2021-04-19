@@ -261,4 +261,25 @@ class Reader
 
         throw new Exception('Lesson ID "' . $lessonId . '" not found');
     }
+
+    /**
+     * @param string $type
+     * @param string $id
+     * @return AbstractEntity
+     * @throws Exception
+     */
+    public function getEntityByIdAndType(string $type, string $id): AbstractEntity
+    {
+        if ($type === 'lesson') {
+            return $this->getLessonById($id);
+        }
+
+        if ($type === 'chapter') {
+            return $this->getChapterById($id);
+        }
+
+        if ($type === 'course') {
+            return $this->getCourseById($id);
+        }
+    }
 }

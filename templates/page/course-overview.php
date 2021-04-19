@@ -2,7 +2,7 @@
 use Shopware\Courseware\Filesystem\Reader;
 
 /** @var Reader $reader */
-$this->layout('layout/default');
+$this->layout('layout/default', ['title' => 'Course overview']);
 ?>
 <h1>Course overview</h1>
 <table class="table table-striped">

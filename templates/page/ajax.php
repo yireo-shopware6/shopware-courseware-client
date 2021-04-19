@@ -6,15 +6,7 @@ use Shopware\Courseware\Parser\MarkdownParser;
 /** @var Reader $reader */
 $type = $_GET['type'];
 $id = $_GET['id'];
-
-if ($type === 'lesson') {
-    $entity = $reader->getLessonById($id);
-} elseif ($type === 'chapter') {
-    $entity = $reader->getChapterById($id);
-} elseif ($type === 'course') {
-    $entity = $reader->getCourseById($id);
-}
-
+$entity = $reader->getEntityByIdAndType($type, $id);
 $content = $entity->getMarkdown();
 $content = (new MarkdownParser())->parse($content);
 
