@@ -15,4 +15,6 @@ $this->layout('layout/minimal', ['title' => $entity->getTitle()]);
     var slideshow = remark.create({
         sourceUrl: '/index.php?page=ajax&type=<?= $type ?>&id=<?= $id ?>'
     });
+    window.addEventListener("keyup", function(e){ if(e.code == 'Escape') history.back(); }, false);
+
 </script>
