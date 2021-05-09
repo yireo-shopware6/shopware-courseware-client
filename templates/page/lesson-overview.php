@@ -5,6 +5,7 @@ use Shopware\Courseware\Filesystem\Reader;
 /** @var Reader $reader */
 $this->layout('layout/default', ['title' => 'Lesson overview']);
 $courseId = $_GET['course_id'];
+$currentStatus= $_GET['status'] ?? '';
 $course = $reader->getCourseById($courseId);
 ?>
 <h1>Lessons of "<?= $course->getTitle() ?>"</h1>
@@ -19,6 +20,7 @@ $course = $reader->getCourseById($courseId);
     </thead>
     <tbody>
     <?php foreach ($course->getLessons() as $lesson): ?>
+        <?php if ($currentStatus && $currentStatus !== (string)$lesson->getStatus()) continue; ?>
         <tr>
             <td><a href="index.php?page=slide&type=lesson&id=<?= $lesson->getId() ?>"><?= $lesson->getTitle() ?></td>
             <td><?= $lesson->getCourse()->getTitle() ?></td>
