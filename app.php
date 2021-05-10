@@ -7,6 +7,9 @@ use League\Plates\Engine as PlatesEngine;
 
 require_once 'vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 $config = Config::getInstance()->setBasePath(__DIR__);
 $reader = Reader::getInstance()->setPath($config->getCoursewareDir());
 

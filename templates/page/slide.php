@@ -13,14 +13,20 @@ $this->layout('layout/minimal', ['title' => $entity->getTitle()]);
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>
     var slideshow = remark.create({
-
         navigation: {
-            scroll: false,
-            touch: true,
-            click: true,
+            scroll: <?= $_ENV['REMARK_SCROLL'] ?? 'false' ?>,
+            touch: <?= $_ENV['REMARK_TOUCH'] ?? 'true' ?>,
+            click: <?= $_ENV['REMARK_CLICK'] ?? 'true' ?>,
         },
         sourceUrl: '/index.php?page=ajax&type=<?= $type ?>&id=<?= $id ?>'
     });
-    window.addEventListener("keyup", function(e){ if(e.code == 'Escape') history.back(); }, false);
+    window.addEventListener("keyup", function(e){
+        if(e.code === 'Escape') {
+            history.back();
+            return true;
+        }
+
+        return false;
+        }, false);
 
 </script>
