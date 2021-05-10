@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Shopware\Courseware\Parser;
+namespace Shopware\Courseware\Markdown\Parser;
 
-class MarkdownParser
+use Shopware\Courseware\Markdown\ParserInterface;
+
+class GitbookParser implements ParserInterface
 {
     /**
      * @param string $content
