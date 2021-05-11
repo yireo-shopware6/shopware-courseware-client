@@ -5,10 +5,15 @@ use Shopware\Courseware\Util\Status;
 
 /** @var Reader $reader */
 $this->layout('layout/default', ['title' => 'Lesson overview']);
+
+$oldTitle='';
+
 $courseId = $_GET['course_id'];
 $currentStatus = $_GET['status'] ?? '';
 $excludedStatuses = isset($_GET['excludedStatuses']) ? explode(',', $_GET['excludedStatuses']) : [];
+
 $course = $reader->getCourseById($courseId);
+
 ?>
 <h1>Lessons of "<?= $course->getTitle() ?>"</h1>
 
@@ -26,25 +31,29 @@ $course = $reader->getCourseById($courseId);
 <table class="table table-striped">
     <thead>
     <tr>
+        <th width="20%">Chapter</th>
         <th>Lesson</th>
-        <th>Course</th>
-        <th>Chapter</th>
-        <th>Status</th>
+        <th width="10%">Status</th>
     </tr>
     </thead>
     <tbody>
     <?php foreach ($course->getLessons() as $lesson): ?>
-        <?php if ($currentStatus && $currentStatus !== (string)$lesson->getStatus()) {
+        <?php
+        if (
+                ($currentStatus && $currentStatus !== (string) $lesson->getStatus()) ||
+                (in_array((string) $lesson->getStatus(), $excludedStatuses, true))
+        ) {
             continue;
-        } ?>
-        <?php if (in_array((string)$lesson->getStatus(), $excludedStatuses)) {
-            continue;
-        } ?>
+        }
+        $currentChapterTitle = $chapterTitle = $lesson->getChapter()->getTitle();
+        $chapterTitle = $oldTitle !== $currentChapterTitle? $currentChapterTitle : '';
+        $oldTitle = $currentChapterTitle;
+        ?>
+
         <tr>
-            <td><a href="index.php?page=slide&type=lesson&id=<?= $lesson->getId() ?>"><?= $lesson->getTitle() ?></a><br>
+            <td><?= $chapterTitle ?></td>
+            <td><a href="/index.php?page=slide&type=lesson&id=<?= $lesson->getId() ?>"><?= $lesson->getTitle() ?></a><br>
             <small><?= $lesson->getChapterHierarchy() ?></small></td>
-            <td><?= $lesson->getCourse()->getTitle() ?></td>
-            <td><?= $lesson->getChapter()->getTitle() ?></td>
             <td style="background-color: <?= $lesson->getStatus()->getColor() ?>"><?= $lesson->getStatus()->getLabel() ?></td>
         </tr>
     <?php endforeach ?>
