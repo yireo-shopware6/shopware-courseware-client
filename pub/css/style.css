@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
 html, body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Barlow', sans-serif;
 }
 
 .remark-container {
@@ -24,18 +24,26 @@ html, body {
     font-size: 26px;
 }
 
-pre {
+.remark-slide-content.center.middle h3
+
+.remark-code, code, .info {
+    background-color: rgb(240, 240, 240) !important;
 
 }
 
+.remark-code {
+    font-size: 70%;
+}
+
+a, .blue { color: rgb(24, 158, 255); }
+
 code {
-    margin: 0px 1px;
+    margin: 0 1px;
     display: inline-block;
     padding: 3px 6px;
-    font-size: 85%;
+    font-size: 80%;
     max-width: 100%;
     border-radius: 3px;
-    background-color: rgb(234, 234, 234);
     white-space: pre-wrap !important;
     word-wrap: break-word;
     word-break: break-all;
@@ -43,13 +51,12 @@ code {
 }
 
 .info {
-    background-color: #eee;
-    border-left: 3px solid rgb(56, 132, 255);
+    border-left: 3px solid rgb(24, 158, 255);
     font-size: 80%;
     padding: 0.1em 0.5em 0.1em 0.8em;
     margin-bottom: 1em;
 }
 
 .info code {
-    background-color: rgb(199, 199, 199);
+    background-color: rgb(210, 210, 210) !important;
 }

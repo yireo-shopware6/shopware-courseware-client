@@ -18,6 +18,7 @@ $this->layout('layout/minimal', ['title' => $entity->getTitle()]);
             touch: <?= $_ENV['REMARK_TOUCH'] ?? 'true' ?>,
             click: <?= $_ENV['REMARK_CLICK'] ?? 'true' ?>,
         },
+        highlightStyle: 'github-gist',
         sourceUrl: '/index.php?page=ajax&type=<?= $type ?>&id=<?= $id ?>'
     });
     window.addEventListener("keyup", function(e){
