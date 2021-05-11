@@ -7,6 +7,7 @@ use Shopware\Courseware\Util\Status;
 $this->layout('layout/default', ['title' => 'Lesson overview']);
 $courseId = $_GET['course_id'];
 $currentStatus = $_GET['status'] ?? '';
+$excludedStatuses = isset($_GET['excludedStatuses']) ? explode(',', $_GET['excludedStatuses']) : [];
 $course = $reader->getCourseById($courseId);
 ?>
 <h1>Lessons of "<?= $course->getTitle() ?>"</h1>
@@ -34,6 +35,9 @@ $course = $reader->getCourseById($courseId);
     <tbody>
     <?php foreach ($course->getLessons() as $lesson): ?>
         <?php if ($currentStatus && $currentStatus !== (string)$lesson->getStatus()) {
+            continue;
+        } ?>
+        <?php if (in_array((string)$lesson->getStatus(), $excludedStatuses)) {
             continue;
         } ?>
         <tr>

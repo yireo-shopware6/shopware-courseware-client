@@ -12,6 +12,6 @@ class TodoParser implements ParserInterface
      */
     public function parse(string $content): string
     {
-        return preg_replace('/^@todo(.*)$/msi', '', $content);
+        return preg_replace('/^@todo([^\n]+)$/msi', '', $content);
     }
 }
