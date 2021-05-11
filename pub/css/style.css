@@ -26,9 +26,17 @@ html, body {
 
 .remark-slide-content.center.middle h3
 
-.remark-code, code, .info {
-    background-color: rgb(240, 240, 240) !important;
+.remark-code, code{
+    background-color: white;
+    border-top:2px solid rgb(230,230,230);
+    border-bottom:3px solid rgb(220,220,220);
+
 }
+
+.info {
+    background-color: rgb(245, 245, 245) !important;
+}
+
 .remark-code-line {
     margin-bottom:0.2rem;
 }
@@ -36,6 +44,11 @@ html, body {
 .remark-code {
     font-size: 70%;
 }
+
+.hljs-github-gist .hljs-keyword, .hljs-github-gist .hljs-keyword-subst {color: rgb(0, 90, 169);}
+.hljs-github-gist .hljs-title, .hljs-github-gist .hljs-title-subst {color: rgb(24, 158, 255);}
+.hljs-github-gist .hljs-string, .hljs-github-gist .hljs-string-subst {color: rgb(134, 165, 9);}
+
 
 a, .blue, strong { color: rgb(24, 158, 255); }
 
@@ -45,7 +58,6 @@ code {
     padding: 3px 6px;
     font-size: 80%;
     max-width: 100%;
-    border-radius: 3px;
     white-space: pre-wrap !important;
     word-wrap: break-word;
     word-break: break-all;
