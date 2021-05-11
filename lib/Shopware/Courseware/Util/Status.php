@@ -2,7 +2,6 @@
 
 namespace Shopware\Courseware\Util;
 
-use Exception;
 use InvalidArgumentException;
 
 class Status
@@ -10,7 +9,7 @@ class Status
     /**
      * @var string[]
      */
-    private $allowedStatuses = [
+    const ALLOWED_STATUTES = [
         'draft' => ['Draft','#eee'],
         'skip' => ['Skip','#ddd'],
         'pending' => ['Pending','#ccc'],
@@ -35,7 +34,7 @@ class Status
             $code = 'draft';
         }
 
-        if (!array_key_exists($code, $this->allowedStatuses)) {
+        if (!array_key_exists($code, self::ALLOWED_STATUTES)) {
             throw new InvalidArgumentException('Invalid status code "' . $code . '"');
         }
 
@@ -47,7 +46,7 @@ class Status
      */
     public function getLabel(): string
     {
-        return $this->allowedStatuses[$this->code][0];
+        return self::ALLOWED_STATUTES[$this->code][0];
     }
 
     /**
@@ -55,7 +54,7 @@ class Status
      */
     public function getColor(): string
     {
-        return $this->allowedStatuses[$this->code][1];
+        return self::ALLOWED_STATUTES[$this->code][1];
     }
 
     /**
