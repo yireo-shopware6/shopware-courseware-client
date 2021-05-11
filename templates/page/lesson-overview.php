@@ -41,7 +41,8 @@ $course = $reader->getCourseById($courseId);
             continue;
         } ?>
         <tr>
-            <td><a href="index.php?page=slide&type=lesson&id=<?= $lesson->getId() ?>"><?= $lesson->getTitle() ?></td>
+            <td><a href="index.php?page=slide&type=lesson&id=<?= $lesson->getId() ?>"><?= $lesson->getTitle() ?></a><br>
+            <small><?= $lesson->getChapterHierarchy() ?></small></td>
             <td><?= $lesson->getCourse()->getTitle() ?></td>
             <td><?= $lesson->getChapter()->getTitle() ?></td>
             <td style="background-color: <?= $lesson->getStatus()->getColor() ?>"><?= $lesson->getStatus()->getLabel() ?></td>
