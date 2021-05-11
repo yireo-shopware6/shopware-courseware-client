@@ -15,9 +15,9 @@ $course = $reader->getCourseById($courseId);
     <input type="hidden" name="course_id" value="<?= $courseId ?>"/>
     <input type="hidden" name="page" value="lesson-overview"/>
     <select name="status" onChange="this.form.submit()">
-        <option>-- select --</option>
+        <option value="">-- select --</option>
         <?php foreach (Status::ALLOWED_STATUTES as $allowedStatusCode => $allowedStatus): ?>
-            <option value="<?= $allowedStatusCode ?>"><?= $allowedStatusCode ?></option>
+            <option value="<?= $allowedStatusCode ?>" <?= ($currentStatus === $allowedStatusCode ? 'selected' : '') ?>><?= $allowedStatusCode ?></option>
         <?php endforeach; ?>
     </select>
 </form>
