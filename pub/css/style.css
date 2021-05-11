@@ -28,14 +28,16 @@ html, body {
 
 .remark-code, code, .info {
     background-color: rgb(240, 240, 240) !important;
-
+}
+.remark-code-line {
+    margin-bottom:0.2rem;
 }
 
 .remark-code {
     font-size: 70%;
 }
 
-a, .blue { color: rgb(24, 158, 255); }
+a, .blue, strong { color: rgb(24, 158, 255); }
 
 code {
     margin: 0 1px;
