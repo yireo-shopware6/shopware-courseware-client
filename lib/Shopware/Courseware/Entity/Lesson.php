@@ -34,4 +34,21 @@ class Lesson extends AbstractEntity
         $idParts = explode('/', $this->getId());
         return Reader::getInstance()->getChapterById($idParts[0] . '/' . $idParts[1]);
     }
+
+    public function getChapterHierarchy(): string
+    {
+        try {
+            $jsonFilePath = $this->getJsonFile()->getRelativePath();
+        } catch (Exception $e) {
+            return '';
+        }
+
+        $firstSlash = strpos($jsonFilePath, '/');
+        $lastSlash = strrpos($jsonFilePath, '/');
+        $pathLength = $lastSlash - $firstSlash - 1;
+
+        $jsonFilePathSegment = substr($jsonFilePath, $firstSlash + 1, $pathLength);
+
+        return str_replace('/', ' : ', $jsonFilePathSegment);
+    }
 }
