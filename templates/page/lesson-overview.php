@@ -52,9 +52,13 @@ $course = $reader->getCourseById($courseId);
 
         <tr>
             <td><?= $chapterTitle ?></td>
-            <td><a href="/index.php?page=slide&type=lesson&id=<?= $lesson->getId() ?>"><?= $lesson->getTitle() ?></a><br>
-            <small><?= $lesson->getChapterHierarchy() ?></small></td>
-            <td style="background-color: <?= $lesson->getStatus()->getColor() ?>"><?= $lesson->getStatus()->getLabel() ?></td>
+            <td>
+                <a href="/index.php?page=slide&type=lesson&id=<?= $lesson->getId() ?>"><?= $lesson->getTitle() ?></a><br>
+                <span style="font-size:50%"><?= $lesson->getChapterHierarchy() ?> | <?= $lesson->getStats() ?></span>
+            </td>
+            <td style="background-color: <?= $lesson->getStatus()->getColor() ?>">
+                <?= $lesson->getStatus()->getLabel() ?>
+            </td>
         </tr>
     <?php endforeach ?>
     </tbody>
