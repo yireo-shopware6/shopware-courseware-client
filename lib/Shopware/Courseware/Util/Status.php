@@ -14,7 +14,7 @@ class Status
         'skip' => ['Skip','#ddd'],
         'pending' => ['Pending','#ccc'],
         'writing' => ['Writing','#ffcd93'],
-        'review' => ['Reviewing','#f9ee87'],
+        'review' => ['Reviewing','#daf987'],
         'recording' => ['Recording','#f9ee87'],
         'uploaded' => ['Uploaded','#93ffc1'],
         'complete' => ['Complete', '#99d699'],
