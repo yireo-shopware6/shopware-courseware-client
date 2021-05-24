@@ -8,16 +8,16 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LessonReorder extends Command
+class FolderReorder extends Command
 {
     /**
      * Command definition
      */
     protected function configure()
     {
-        $this->setName('lesson:reorder')
-            ->setDescription('Reorder all lessons in a specific chapter')
-            ->addArgument('path', InputArgument::REQUIRED, 'Chapter path');
+        $this->setName('folder:reorder')
+            ->setDescription('Reorder all folders in a specific path')
+            ->addArgument('path', InputArgument::REQUIRED, 'Path');
     }
 
     /**
