@@ -3,6 +3,7 @@
 namespace Shopware\Courseware\Util;
 
 use Exception;
+use Shopware\Courseware\Exception\FolderNotFoundException;
 
 class Config
 {
@@ -80,6 +81,11 @@ class Config
      */
     public function getCoursewareDir(): string
     {
-        return $this->get()['courseware_dir'];
+        $coursewareDir = $this->get()['courseware_dir'];
+        if (!is_dir($coursewareDir)) {
+            throw new FolderNotFoundException('Config value "courseware_dir" is invalid: ' . $coursewareDir);
+        }
+
+        return $coursewareDir;
     }
 }

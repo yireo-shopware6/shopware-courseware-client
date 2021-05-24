@@ -26,3 +26,8 @@ You can switch between the Presenter Mode (press `P`) and the normal mode (again
     - `{% include URL %}` allows for a remote URL to be included, like the Shopware Gitbook docs
     - `{% embed url=URL %}` is converted into a regular link
     - ...
+
+## CLI commands
+```bash
+bin/console lesson:create
+```
