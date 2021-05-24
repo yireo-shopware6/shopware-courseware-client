@@ -29,5 +29,7 @@ You can switch between the Presenter Mode (press `P`) and the normal mode (again
 
 ## CLI commands
 ```bash
-bin/console lesson:create
+bin/console chapter:create example-chapter
+bin/console lesson:create example-chapter/example-lesson
+bin/console lesson:reorder example-chapter
 ```
