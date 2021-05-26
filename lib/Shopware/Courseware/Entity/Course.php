@@ -29,7 +29,7 @@ class Course extends AbstractEntity
      * @return string
      * @throws Exception
      */
-    public function getMarkdown(): string
+    public function getMarkdown(bool $showChapterTitle = true, bool $showChapterOverview = true, $allowPublishingOnly = true): string
     {
         $markdown = $this->getMarkdownFile()->getContents();
         if (!empty($markdown)) {

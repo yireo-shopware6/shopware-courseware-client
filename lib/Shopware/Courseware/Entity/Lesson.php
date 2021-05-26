@@ -10,7 +10,7 @@ class Lesson extends AbstractEntity
     /**
      * @return string
      */
-    public function getMarkdown(): string
+    public function getMarkdown(bool $showChapterTitle = true, bool $showChapterOverview = true, $allowPublishingOnly = true): string
     {
         return $this->getMarkdownFile()->getContents();
     }

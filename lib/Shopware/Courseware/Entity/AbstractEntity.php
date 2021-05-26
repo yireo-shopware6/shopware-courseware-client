@@ -20,6 +20,13 @@ abstract class AbstractEntity
     protected $markdownFile;
 
     /**
+     * @return string
+     */
+    abstract public function getMarkdown(bool $showChapterTitle = true, bool $showChapterOverview = true, $allowPublishingOnly = true): string;
+
+
+
+    /**
      * Course constructor.
      * @param JsonFile $jsonFile
      * @param MarkdownFile $markdownFile

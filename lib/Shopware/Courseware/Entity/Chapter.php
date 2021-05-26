@@ -20,11 +20,11 @@ class Chapter extends AbstractEntity
      * @return Lesson[]
      * @throws Exception
      */
-    public function getAllowedLessons(): array
+    public function getAllowedLessons($allowPublishingOnly = true): array
     {
         $lessons = [];
         foreach ($this->getLessons() as $lesson) {
-            if (!$lesson->getStatus()->allowPublishing()) {
+            if ($allowPublishingOnly === true && !$lesson->getStatus()->allowPublishing()) {
                 continue;
             }
 
@@ -38,7 +38,7 @@ class Chapter extends AbstractEntity
      * @return string
      * @throws Exception
      */
-    public function getMarkdown(bool $showChapterTitle = true, bool $showChapterOverview = true): string
+    public function getMarkdown(bool $showChapterTitle = true, bool $showChapterOverview = true, $allowPublishingOnly = true): string
     {
         $markdown = $this->getMarkdownFile()->getContents();
         if (!empty($markdown)) {
@@ -52,19 +52,19 @@ class Chapter extends AbstractEntity
 
         if ($showChapterOverview) {
             $markdown .= "# Chapter overview\n";
-            foreach ($this->getAllowedLessons() as $lesson) {
+            foreach ($this->getAllowedLessons($allowPublishingOnly) as $lesson) {
                 $markdown .= "- " . $lesson->getTitle() . "\n";
             }
         }
 
         // Lessons
-        foreach ($this->getAllowedLessons() as $lesson) {
+        foreach ($this->getAllowedLessons($allowPublishingOnly) as $lesson) {
             $lessonMarkdown = trim($lesson->getMarkdown());
             if (empty($lessonMarkdown)) {
                 continue;
             }
 
-            $markdown .= "\n---\n";
+            $markdown .= $markdown === '' ? '' : "\n---\n";
             $markdown .= $lessonMarkdown;
         }
 

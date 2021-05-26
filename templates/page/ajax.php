@@ -7,7 +7,10 @@ use Shopware\Courseware\Markdown\Parser;
 $type = $_GET['type'];
 $id = $_GET['id'];
 $entity = $reader->getEntityByIdAndType($type, $id);
-$content = $entity->getMarkdown();
+$showChapterTitle = !($_ENV['SHOW_CHAPTER_OVERVIEW'] === 'false');
+$showChapterOverview = !($_ENV['SHOW_CHAPTER_TITLE'] === 'false');
+$allowPublishingOnly = !($_ENV['ALLOW_PUBLISHING_ONLY'] === 'false');
+$content = $entity->getMarkdown($showChapterTitle, $showChapterOverview, $allowPublishingOnly);
 $content = (new Parser())->parse($content);
 
 echo $content;
