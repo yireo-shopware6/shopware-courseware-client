@@ -26,7 +26,7 @@ html, body {
 
 .remark-slide-content.center.middle h3
 
-.remark-code, code{
+.remark-code {
     background-color: white;
     border-top:2px solid rgb(230,230,230);
     border-bottom:3px solid rgb(220,220,220);
