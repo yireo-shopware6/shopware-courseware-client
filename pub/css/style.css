@@ -81,3 +81,7 @@ code {
 .info code {
     background-color: rgb(210, 210, 210) !important;
 }
+
+.file {
+    margin-bottom: 1em;
+}
