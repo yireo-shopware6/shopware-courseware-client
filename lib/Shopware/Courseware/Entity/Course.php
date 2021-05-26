@@ -36,15 +36,43 @@ class Course extends AbstractEntity
             return $markdown;
         }
 
+        // Course title
+        $markdown .= "# " . $this->getTitle() . "\n";
+        $markdown .= "\n---\n";
+
+        // Course overview
+        $markdown .= "# Chapters\n";
+        $i = 1;
         foreach ($this->getChapters() as $chapter) {
-            $chapterMarkdown = trim($chapter->getMarkdown());
-            if ($chapterMarkdown) {
-                $markdown .= $chapterMarkdown;
-                $markdown .= "\n---\n";
+            $markdown .= "- " . $this->getChapterPrefix($i) . " - " . $chapter->getTitle() . "\n";
+            $i++;
+        }
+        $markdown .= "\n---\n";
+
+        // Chapters
+        $i = 1;
+        foreach ($this->getChapters() as $chapter) {
+            $chapterMarkdown = trim($chapter->getMarkdown(false));
+            if (empty($chapterMarkdown)) {
+                continue;
             }
+
+            $markdown .= "### Chapter " . $this->getChapterPrefix($i) . "\n";
+            $markdown .= "# " . $chapter->getTitle() . "\n";
+            $markdown .= "\n---\n";
+            $markdown .= $chapterMarkdown;
+            $i++;
         }
 
-
         return $markdown;
+    }
+
+    /**
+     * @param int $number
+     * @return string
+     */
+    private function getChapterPrefix(int $number): string
+    {
+        return str_pad((string)$number, 2, '0', STR_PAD_LEFT);
     }
 }
