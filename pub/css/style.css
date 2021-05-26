@@ -45,6 +45,13 @@ html, body {
     font-size: 70%;
 }
 
+.file .info { padding-bottom: 0.5rem; margin:0; padding-left:0.5rem; }
+.file .info::before { content: 'File:'; margin-right:0.5rem }
+.file .info p { display: inline; }
+.file .remark-code { border-left: 3px solid rgb(24, 158, 255); }
+.file pre {margin: 0 }
+.file code { margin:0}
+
 .hljs-github-gist .hljs-keyword, .hljs-github-gist .hljs-keyword-subst {color: rgb(0, 90, 169);}
 .hljs-github-gist .hljs-title, .hljs-github-gist .hljs-title-subst {color: rgb(24, 158, 255);}
 .hljs-github-gist .hljs-string, .hljs-github-gist .hljs-string-subst {color: rgb(134, 165, 9);}
