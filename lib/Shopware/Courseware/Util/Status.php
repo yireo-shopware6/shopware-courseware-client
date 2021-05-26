@@ -71,7 +71,7 @@ class Status
      */
     public function allowPublishing(): bool
     {
-        if (in_array($this->getCode(), ['complete', 'uploading'])) {
+        if (in_array($this->getCode(), ['complete', 'uploading', 'review'])) {
             return true;
         }
 
