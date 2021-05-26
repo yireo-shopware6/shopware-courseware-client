@@ -45,13 +45,17 @@ $course = $reader->getCourseById($courseId);
         ) {
             continue;
         }
-        $currentChapterTitle = $chapterTitle = $lesson->getChapter()->getTitle();
+
+        $chapter = $lesson->getChapter();
+        $currentChapterTitle = $chapterTitle = $chapter->getTitle();
         $chapterTitle = $oldTitle !== $currentChapterTitle? $currentChapterTitle : '';
         $oldTitle = $currentChapterTitle;
         ?>
 
         <tr>
-            <td><?= $chapterTitle ?></td>
+            <td>
+                <a href="/index.php?page=slide&type=chapter&id=<?= $chapter->getId() ?>"><?= $chapterTitle ?></a>
+            </td>
             <td>
                 <a href="/index.php?page=slide&type=lesson&id=<?= $lesson->getId() ?>"><?= $lesson->getTitle() ?></a><br>
                 <span style="font-size:50%"><?= $lesson->getChapterHierarchy() ?> | <?= $lesson->getStats() ?></span>
