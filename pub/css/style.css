@@ -56,7 +56,6 @@ html, body {
 .hljs-github-gist .hljs-title, .hljs-github-gist .hljs-title-subst {color: rgb(24, 158, 255);}
 .hljs-github-gist .hljs-string, .hljs-github-gist .hljs-string-subst {color: rgb(134, 165, 9);}
 
-
 a, .blue, strong { color: rgb(24, 158, 255); }
 
 code {
@@ -68,7 +67,6 @@ code {
     white-space: pre-wrap !important;
     word-wrap: break-word;
     word-break: break-all;
-
 }
 
 .info {
