@@ -1,7 +1,22 @@
 body {
-    padding: 30px;
+    padding: 60px;
+    font-size: 110%;
 }
 
 code {
-    background-color: rgb(245, 247, 249);
+    background-color: rgb(228, 242, 255);
+    font-size: 110%;
+}
+
+h2, h3 {
+    color: #1c92c4;
+}
+
+a, strong { color: rgb(37, 66, 74); }
+
+.logo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 100px;
 }

@@ -5,10 +5,12 @@ require __DIR__.'/../bootstrap.php';
 use Shopware\CoursewareCli\ChapterCreate;
 use Shopware\CoursewareCli\LessonCreate;
 use Shopware\CoursewareCli\FolderReorder;
+use Shopware\CoursewareCli\MarkdownPdf;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
 $application->add(new LessonCreate);
 $application->add(new FolderReorder);
 $application->add(new ChapterCreate);
+$application->add(new MarkdownPdf);
 $application->run();
