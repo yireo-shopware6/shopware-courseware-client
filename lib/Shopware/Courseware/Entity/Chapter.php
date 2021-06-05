@@ -65,8 +65,10 @@ class Chapter extends AbstractEntity
             }
 
             $markdown .= $markdown === '' ? '' : "\n---\n";
-            $markdown .= $lessonMarkdown;
+            $markdown .= trim($lessonMarkdown);
         }
+
+        $markdown .= "\n---\n";
 
         return $markdown;
     }
