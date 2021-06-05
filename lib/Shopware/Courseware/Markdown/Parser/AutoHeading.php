@@ -24,11 +24,14 @@ class AutoHeading implements ParserInterface
     }
 
     /**
-     * @param string $slide
+     * @param string $content
      * @return bool
      */
-    private function hasOnlyHeading(string $slide): bool
+    private function hasOnlyHeading(string $content): bool
     {
+        $lines = explode("???", $content);
+        $slide = trim($lines[0]);
+
         $lines = explode("\n", $slide);
         foreach ($lines as $line) {
             $line = trim($line);
