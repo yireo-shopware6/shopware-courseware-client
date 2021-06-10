@@ -56,8 +56,9 @@ html, body {
 .file .remark-code { border-left: 3px solid rgb(24, 158, 255); }
 .file pre {margin: 0 }
 .file code { margin:0}
+.file { margin-bottom:2rem}
 
-.hljs-github-gist .hljs-keyword, .hljs-github-gist .hljs-keyword-subst {color: rgb(0, 90, 169);}
+.hljs-github-gist .hljs-keyword, .hljs-github-gist .hljs-keyword-subst, .hljs-github-gist .hljs-built_in {color: rgb(0, 90, 169);}
 .hljs-github-gist .hljs-title, .hljs-github-gist .hljs-title-subst {color: rgb(24, 158, 255);}
 .hljs-github-gist .hljs-string, .hljs-github-gist .hljs-string-subst {color: rgb(134, 165, 9);}
 
@@ -85,6 +86,6 @@ code {
     background-color: rgb(210, 210, 210) !important;
 }
 
-.file {
-    margin-bottom: 1em;
-}
+ul { list-style-type: square}
+ul ul { list-style-type: disc}
+ul ul ul { list-style-type: circle}
