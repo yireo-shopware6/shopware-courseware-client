@@ -1,7 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
+@font-face {
+    font-family: 'Calibri';
+    src: url('../fonts/calibri.ttf');
+}
+
 html, body {
-    font-family: 'Barlow', sans-serif;
+    font-family: 'Calibri', 'Barlow', sans-serif;
 }
 
 .remark-container {

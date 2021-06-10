@@ -9,10 +9,10 @@ code {
 }
 
 h2, h3 {
-    color: #1c92c4;
+    color: rgb(24, 158, 255);
 }
 
-a, strong { color: rgb(37, 66, 74); }
+a, strong { color: rgb(3, 62, 106); }
 
 .logo {
     position: absolute;
