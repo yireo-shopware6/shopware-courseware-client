@@ -3,6 +3,7 @@
 namespace Shopware\CoursewareCli;
 
 use Michelf\MarkdownExtra;
+use Shopware\Courseware\Util\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,6 +29,10 @@ class MarkdownPdf extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $markdownFile = $input->getArgument('file');
+        if (!is_file($markdownFile)) {
+            $markdownFile = Config::getInstance()->getCoursewareDir().'/'.$markdownFile;
+        }
+
         if (!is_file($markdownFile)) {
             $output->writeln('<error>Could not locate file: ' . $markdownFile . '</error>');
             return 0;
@@ -70,6 +75,10 @@ class MarkdownPdf extends Command
         $inlineCss = file_get_contents(__DIR__ . '/../../../pub/css/style.css');
         $inlineCss .= "\n\n";
         $inlineCss .= file_get_contents(__DIR__ . '/../../../pub/css/print.css');
+
+        $fontsDir = Config::getInstance()->getBasePath().'/pub/fonts/';
+        $inlineCss = str_replace('../fonts/', $fontsDir, $inlineCss);
+
         return $inlineCss;
     }
 

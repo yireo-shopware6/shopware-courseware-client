@@ -67,6 +67,10 @@ class Config
         $configFile = (file_exists($customConfigFile)) ? $customConfigFile : $defaultConfigFile;
         $config = include($configFile);
 
+        if (!isset($config['courseware_dir'])) {
+            throw new Exception('Courseware directory is not set');
+        }
+
         if (!is_dir($config['courseware_dir'])) {
             throw new Exception('Courseware directory does not exist');
         }
