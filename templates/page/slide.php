@@ -6,6 +6,7 @@ use Shopware\Courseware\Filesystem\Reader;
 $id = $_GET['id'];
 $type = $_GET['type'];
 $entity = $reader->getEntityByIdAndType($type, $id);
+$courseId = substr($id, 0, strpos($id, '/'));
 
 $this->layout('layout/minimal', ['title' => $entity->getTitle()]);
 ?>
@@ -23,7 +24,7 @@ $this->layout('layout/minimal', ['title' => $entity->getTitle()]);
     });
     window.addEventListener("keyup", function(e){
         if(e.code === 'Escape') {
-            history.back();
+            window.location.href='/index.php?page=lesson-overview&course_id=<?= $courseId ?>';
             return true;
         }
 
