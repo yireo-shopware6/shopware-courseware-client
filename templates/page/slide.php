@@ -6,7 +6,7 @@ use Shopware\Courseware\Filesystem\Reader;
 $id = $_GET['id'];
 $type = $_GET['type'];
 $entity = $reader->getEntityByIdAndType($type, $id);
-$courseId = substr($id, 0, strpos($id, '/'));
+$courseId = substr($id, 0, (int)strpos($id, '/'));
 
 $this->layout('layout/minimal', ['title' => $entity->getTitle()]);
 ?>
