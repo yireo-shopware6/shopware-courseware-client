@@ -29,12 +29,11 @@ html, body {
     font-size: 26px;
 }
 
-.remark-slide-content.center.middle h3
-
+.remark-slide-content.center.middle h3,
 .remark-code {
-    background-color: white;
-    border-top:2px solid rgb(230,230,230);
-    border-bottom:3px solid rgb(220,220,220);
+    background-color: #f8f8f8;
+    border-top: 2px solid rgb(230, 230, 230);
+    border-bottom: 3px solid rgb(220, 220, 220);
 
 }
 
@@ -43,7 +42,7 @@ html, body {
 }
 
 .remark-code-line {
-    margin-bottom:0.2rem;
+    margin-bottom: 0.2rem;
 }
 
 .remark-code {
@@ -61,32 +60,83 @@ html, body {
     background-color: rgb(210, 210, 210) !important;
 }
 
-.file .info { margin:0; padding: 0.5rem; }
-.file .info::before { content: 'File:'; margin-right:0.5rem }
-.file .info p { display: inline; }
-.file .remark-code { border-left: 3px solid rgb(24, 158, 255); }
-.file pre {margin: 0 }
-.file code { margin:0}
-.file { margin-bottom:2rem}
+.file .info {
+    margin: 0;
+    padding: 0.5rem;
+}
 
-.hljs-github-gist .hljs-keyword, .hljs-github-gist .hljs-keyword-subst, .hljs-github-gist .hljs-built_in {color: rgb(0, 90, 169);}
-.hljs-github-gist .hljs-title, .hljs-github-gist .hljs-title-subst {color: rgb(24, 158, 255);}
-.hljs-github-gist .hljs-string, .hljs-github-gist .hljs-string-subst {color: rgb(134, 165, 9);}
+.file .info::before {
+    content: 'File:';
+    margin-right: 0.5rem
+}
 
-a, .blue, strong { color: rgb(24, 158, 255); }
+.file .info p {
+    display: inline;
+}
+
+.shell .remark-code,
+.file .remark-code {
+    border-left: 3px solid rgb(24, 158, 255);
+}
+
+.shell pre,
+.file pre {
+    margin: 0
+}
+
+.shell pre,
+.file code {
+    margin: 0
+}
+
+.shell .remark-code-line::before {
+    content: '$ ';
+    opacity: 0.4;
+}
+
+.shell,
+.file {
+    margin-bottom: 2rem
+}
+
+.hljs-github-gist .hljs-keyword, .hljs-github-gist .hljs-keyword-subst, .hljs-github-gist .hljs-built_in {
+    color: rgb(0, 90, 169);
+}
+
+.hljs-github-gist .hljs-title, .hljs-github-gist .hljs-title-subst {
+    color: rgb(24, 158, 255);
+}
+
+.hljs-github-gist .hljs-string, .hljs-github-gist .hljs-string-subst {
+    color: rgb(134, 165, 9);
+}
+
+a, .blue, strong {
+    color: rgb(24, 158, 255);
+}
 
 code {
     margin: 0 1px;
     display: inline-block;
     padding: 3px 6px;
     font-size: 80%;
+    line-height: 80%;
     max-width: 100%;
     white-space: pre-wrap !important;
     word-wrap: break-word;
     word-break: break-all;
+    background-color: #e3edf3;
 }
 
 
-ul { list-style-type: square}
-ul ul { list-style-type: disc}
-ul ul ul { list-style-type: circle}
+ul {
+    list-style-type: square
+}
+
+ul ul {
+    list-style-type: disc
+}
+
+ul ul ul {
+    list-style-type: circle
+}
