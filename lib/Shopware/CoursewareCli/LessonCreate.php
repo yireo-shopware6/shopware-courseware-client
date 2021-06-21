@@ -44,7 +44,9 @@ class LessonCreate extends Command
 
         if (!is_dir($path)) {
             $output->writeln('Creating folder "' . $path . '"');
-            mkdir($path);
+            if (!mkdir($path, 0777, true) && !is_dir($path)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
+            }
         }
 
         if (!is_file($path . '/main.json')) {
