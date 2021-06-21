@@ -3,16 +3,25 @@
 namespace Shopware\Courseware\Entity;
 
 use Exception;
+use Shopware\Courseware\Exception\FileNotFoundException;
 use Shopware\Courseware\Filesystem\Reader;
 
 class Lesson extends AbstractEntity
 {
     /**
+     * @param bool $showChapterTitle
+     * @param bool $showChapterOverview
+     * @param bool $allowPublishingOnly
      * @return string
      */
-    public function getMarkdown(bool $showChapterTitle = true, bool $showChapterOverview = true, $allowPublishingOnly = true): string
-    {
-        return $this->getMarkdownFile()->getContents();
+    public function getMarkdown(
+        bool $showChapterTitle = true,
+        bool $showChapterOverview = true,
+        $allowPublishingOnly = true
+    ): string {
+        $markdown = $this->getMarkdownFile()->getContents();
+        $markdown .= $this->getLabs();
+        return $markdown;
     }
 
     /**
@@ -81,6 +90,26 @@ class Lesson extends AbstractEntity
     }
 
     /**
+     * @return bool
+     */
+    public function hasLabs(): bool
+    {
+        return (bool)$this->getLabs();
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabs(): string
+    {
+        try {
+            return "---\n".file_get_contents($this->getLabsFile());
+        } catch (FileNotFoundException $e) {
+            return '';
+        }
+    }
+
+    /**
      * @return int
      */
     public function getStudentNoteChars(): int
@@ -92,5 +121,19 @@ class Lesson extends AbstractEntity
         }
 
         return $studentNotesChars;
+    }
+
+    /**
+     * @return string
+     * @throws FileNotFoundException
+     */
+    private function getLabsFile(): string
+    {
+        $labsFile = dirname($this->getJsonFile()->getAbsolutePath()) . '/LABS.md';
+        if (!file_exists($labsFile)) {
+            throw new FileNotFoundException('Labs file "'.$labsFile.'" does not exist');
+        }
+
+        return $labsFile;
     }
 }

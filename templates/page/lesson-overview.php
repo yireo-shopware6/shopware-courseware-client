@@ -33,6 +33,7 @@ $course = $reader->getCourseById($courseId);
     <tr>
         <th width="20%">Chapter</th>
         <th>Lesson</th>
+        <th>Labs</th>
         <th width="10%">Status</th>
     </tr>
     </thead>
@@ -59,6 +60,9 @@ $course = $reader->getCourseById($courseId);
             <td>
                 <a href="/index.php?page=slide&type=lesson&id=<?= $lesson->getId() ?>"><?= $lesson->getTitle() ?></a><br>
                 <span style="font-size:50%"><?= $lesson->getChapterHierarchy() ?> | <?= $lesson->getStats() ?></span>
+            </td>
+            <td>
+                <?= $lesson->hasLabs() ? 'X': '' ?>
             </td>
             <td style="background-color: <?= $lesson->getStatus()->getColor() ?>">
                 <?= $lesson->getStatus()->getLabel() ?>

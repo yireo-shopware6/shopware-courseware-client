@@ -26,28 +26,34 @@ class Course extends AbstractEntity
     }
 
     /**
+     * @return int
+     * @throws Exception
+     */
+    public function getSlidesNumber(): int
+    {
+        $markdownParts = explode('---', $this->getMarkdown());
+        return count($markdownParts);
+    }
+
+    /**
+     * @param bool $showChapterTitle
+     * @param bool $showChapterOverview
+     * @param bool $allowPublishingOnly
      * @return string
      * @throws Exception
      */
-    public function getMarkdown(bool $showChapterTitle = true, bool $showChapterOverview = true, $allowPublishingOnly = true): string
-    {
+    public function getMarkdown(
+        bool $showChapterTitle = true,
+        bool $showChapterOverview = true,
+        $allowPublishingOnly = true
+    ): string {
         $markdown = $this->getMarkdownFile()->getContents();
         if (!empty($markdown)) {
             return $markdown;
         }
 
-        // Course title
-        $markdown .= "# " . $this->getTitle() . "\n";
-        $markdown .= "\n---\n";
-
-        // Course overview
-        $markdown .= "# Chapters\n";
-        $i = 1;
-        foreach ($this->getChapters() as $chapter) {
-            $markdown .= "- " . $this->getChapterPrefix($i) . " - " . $chapter->getTitle() . "\n";
-            $i++;
-        }
-        $markdown .= "\n---\n";
+        $this->getCourseTitleMarkdown();
+        $this->getCourseOverviewMarkdown();
 
         // Chapters
         $i = 1;
@@ -64,6 +70,32 @@ class Course extends AbstractEntity
             $i++;
         }
 
+        return $markdown;
+    }
+
+    /**
+     * @return string
+     */
+    private function getCourseTitleMarkdown(): string
+    {
+        $markdown = "# " . $this->getTitle() . "\n";
+        $markdown .= "\n---\n";
+        return $markdown;
+    }
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    private function getCourseOverviewMarkdown(): string
+    {
+        $markdown = "# Chapters\n";
+        $i = 1;
+        foreach ($this->getChapters() as $chapter) {
+            $markdown .= "- " . $this->getChapterPrefix($i) . " - " . $chapter->getTitle() . "\n";
+            $i++;
+        }
+        $markdown .= "\n---\n";
         return $markdown;
     }
 
