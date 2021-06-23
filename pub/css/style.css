@@ -74,14 +74,16 @@ html, body {
     display: inline;
 }
 
+.code .remark-code,
 .shell .remark-code,
 .file .remark-code {
     border-left: 3px solid rgb(24, 158, 255);
 }
 
+.code pre,
 .shell pre,
 .file pre {
-    margin: 0
+    margin: 0;
 }
 
 .shell pre,
