@@ -2,8 +2,8 @@
 
 namespace Shopware\CoursewareCli;
 
-use Michelf\MarkdownExtra;
 use Shopware\Courseware\Util\Config;
+use Shopware\Courseware\Util\PdfGenerator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,6 +25,7 @@ class MarkdownPdf extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -38,56 +39,9 @@ class MarkdownPdf extends Command
             return 0;
         }
 
-        $markdown = file_get_contents($markdownFile);
-        $html = $this->getHtmlWrapper();
-        $html = str_replace('{body}', MarkdownExtra::defaultTransform($markdown), $html);
-        $htmlFile = preg_replace('/\.md$/', '.html', $markdownFile);
-        $pdfFile = preg_replace('/\.md$/', '.pdf', $markdownFile);
-        file_put_contents($htmlFile, $html);
-
-        exec('wkhtmltopdf -B 30mm -T 30mm ' . $htmlFile . ' ' . $pdfFile);
+        $pdfGenerator = new PdfGenerator();
+        $pdfGenerator->fromMarkdownFile($markdownFile);
 
         return 0;
-    }
-
-    /**
-     * @return string
-     */
-    private function getHtmlWrapper(): string
-    {
-        $html = '<html lang="en">';
-        $html .= '<head>';
-        $html .= '<style>' . $this->getInlineCss() . '</style>';
-        $html .= '</head>';
-        $html .= '<body>';
-        $html .= '<div class="logo"><img width="80" src="' . $this->getLogoImageAsString() . '"/></div>';
-        $html .= '{body}';
-        $html .= '</body>';
-        $html .= '</html>';
-        return $html;
-    }
-
-    /**
-     * @return string
-     */
-    private function getInlineCss(): string
-    {
-        $inlineCss = file_get_contents(__DIR__ . '/../../../pub/css/style.css');
-        $inlineCss .= "\n\n";
-        $inlineCss .= file_get_contents(__DIR__ . '/../../../pub/css/print.css');
-
-        $fontsDir = Config::getInstance()->getBasePath().'/pub/fonts/';
-        $inlineCss = str_replace('../fonts/', $fontsDir, $inlineCss);
-
-        return $inlineCss;
-    }
-
-    /**
-     * @return string
-     */
-    private function getLogoImageAsString(): string
-    {
-        $imageString = file_get_contents(__DIR__ . '/../../../pub/images/shopware.png');
-        return 'data:image/png;base64,' . base64_encode($imageString);
     }
 }

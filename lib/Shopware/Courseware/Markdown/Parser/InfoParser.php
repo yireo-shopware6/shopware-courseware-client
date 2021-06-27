@@ -18,7 +18,7 @@ class InfoParser implements ParserInterface
                 $fullMatch = $matches[0][$matchIndex];
                 $textMatch = $matches[1][$matchIndex];
                 $textMatch = MarkdownExtra::defaultTransform($textMatch);
-                $infoTag = '<div class="info">' . $textMatch . '</div>';
+                $infoTag = '<div class="info">' . $textMatch . '</div>'."\n";
                 $content = str_replace($fullMatch, $infoTag, $content);
             }
         }

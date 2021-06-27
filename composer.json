@@ -12,7 +12,8 @@
         "league/plates": "^3.4",
         "vlucas/phpdotenv": "^5.3",
         "michelf/php-markdown": "^1.9",
-        "symfony/console": "^5.2"
+        "symfony/console": "^5.2",
+        "league/commonmark": "^1.6"
     },
     "autoload": {
         "psr-4": {
