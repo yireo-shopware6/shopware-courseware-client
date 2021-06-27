@@ -52,8 +52,8 @@ class Course extends AbstractEntity
             return $markdown;
         }
 
-        $this->getCourseTitleMarkdown();
-        $this->getCourseOverviewMarkdown();
+        $markdown .= $this->getCourseTitleMarkdown();
+        $markdown .= $this->getCourseOverviewMarkdown();
 
         // Chapters
         $i = 1;
@@ -63,7 +63,7 @@ class Course extends AbstractEntity
                 continue;
             }
 
-            $markdown .= "### Chapter " . $this->getChapterPrefix($i) . "\n";
+            $markdown .= "#### Chapter " . $this->getChapterPrefix($i) . "\n";
             $markdown .= "# " . $chapter->getTitle() . "\n";
             $markdown .= "\n---\n";
             $markdown .= $chapterMarkdown;
@@ -90,11 +90,14 @@ class Course extends AbstractEntity
     private function getCourseOverviewMarkdown(): string
     {
         $markdown = "# Chapters\n";
+        $markdown .= ".chapters[\n";
         $i = 1;
         foreach ($this->getChapters() as $chapter) {
             $markdown .= "- " . $this->getChapterPrefix($i) . " - " . $chapter->getTitle() . "\n";
             $i++;
         }
+
+        $markdown .= "]\n";
         $markdown .= "\n---\n";
         return $markdown;
     }

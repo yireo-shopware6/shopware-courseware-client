@@ -57,6 +57,10 @@ a {
     font-size: 70%;
 }
 
+.chapters ul {
+    column-count: 2;
+}
+
 .info {
     border-left: 3px solid rgb(24, 158, 255);
     font-size: 80%;
