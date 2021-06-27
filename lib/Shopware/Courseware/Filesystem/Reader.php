@@ -7,6 +7,7 @@ use Shopware\Courseware\Entity\AbstractEntity;
 use Shopware\Courseware\Entity\Chapter;
 use Shopware\Courseware\Entity\Course;
 use Shopware\Courseware\Entity\Lesson;
+use Shopware\Courseware\Exception\EntityNotFoundException;
 
 class Reader
 {
@@ -281,5 +282,7 @@ class Reader
         if ($type === 'course') {
             return $this->getCourseById($id);
         }
+
+        throw new EntityNotFoundException('No entity found with ID "'.$id.'" and type "'.$type.'"');
     }
 }
