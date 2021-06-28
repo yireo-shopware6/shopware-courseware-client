@@ -93,7 +93,7 @@ class Course extends AbstractEntity
         $markdown .= ".chapters[\n";
         $i = 1;
         foreach ($this->getChapters() as $chapter) {
-            $markdown .= "- " . $this->getChapterPrefix($i) . " - " . $chapter->getTitle() . "\n";
+            $markdown .= "1. " . $chapter->getTitle() . "\n";
             $i++;
         }
 

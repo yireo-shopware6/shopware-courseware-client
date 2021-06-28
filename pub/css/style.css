@@ -54,7 +54,8 @@ a {
     font-size: 70%;
 }
 
-.chapters ul {
+.chapters ul,
+.chapters ol {
     column-count: 2;
 }
 
