@@ -45,6 +45,7 @@ a {
 
 }
 
+.file > p,
 .info {
     background-color: rgb(245, 245, 245) !important;
 }
@@ -57,6 +58,7 @@ a {
     column-count: 2;
 }
 
+.file > p,
 .info {
     border-left: 3px solid rgb(24, 158, 255);
     font-size: 80%;
@@ -68,18 +70,20 @@ a {
     background-color: rgb(210, 210, 210) !important;
 }
 
+.file > p,
 .file .info {
     margin: 0;
     padding: 0.5rem;
 }
 
+.file .info p {
+    display: inline;
+}
+
+.file p::before,
 .file .info::before {
     content: 'File:';
     margin-right: 0.5rem
-}
-
-.file .info p {
-    display: inline;
 }
 
 .code .remark-code,
