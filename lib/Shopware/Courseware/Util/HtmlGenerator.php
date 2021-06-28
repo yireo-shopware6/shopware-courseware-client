@@ -10,17 +10,18 @@ class HtmlGenerator
 {
     /**
      * @param string $markdown
+     * @param bool $includeNotes
      * @return string
      * @throws FileNotFoundException
      */
-    public function fromMarkdown(string $markdown): string
+    public function fromMarkdown(string $markdown, bool $includeNotes = false): string
     {
         $html = '';
         $chunks = explode('---', $markdown);
         foreach ($chunks as $chunk) {
             $chunk = explode('???', $chunk);
             $html .= $this->parseMarkdown($chunk[0], 'slide');
-            if (isset($chunk[1]) && !empty($chunk[1])) {
+            if ($includeNotes && isset($chunk[1]) && !empty($chunk[1])) {
                 $html .= $this->parseMarkdown($chunk[1], 'notes');
             }
 
@@ -32,6 +33,7 @@ class HtmlGenerator
 
     /**
      * @param string $markdown
+     * @param string $type
      * @return string
      */
     private function parseMarkdown(string $markdown, string $type): string
