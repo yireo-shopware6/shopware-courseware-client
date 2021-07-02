@@ -67,6 +67,7 @@ class Course extends AbstractEntity
             $markdown .= "# " . $chapter->getTitle() . "\n";
             $markdown .= "\n---\n";
             $markdown .= $chapterMarkdown;
+            $markdown .= $this->getCourseOverviewMarkdown();
             $i++;
         }
 
