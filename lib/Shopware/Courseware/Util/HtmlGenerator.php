@@ -3,11 +3,16 @@
 namespace Shopware\Courseware\Util;
 
 use League\CommonMark\CommonMarkConverter;
+use Shopware\Courseware\Entity\AbstractEntity;
+use Shopware\Courseware\Entity\Course;
 use Shopware\Courseware\Exception\FileNotFoundException;
 use Shopware\Courseware\Markdown\Parser;
 
 class HtmlGenerator
 {
+    /** @var AbstractEntity */
+    private $entity;
+
     /**
      * @param string $markdown
      * @param bool $includeNotes
@@ -17,6 +22,29 @@ class HtmlGenerator
     public function fromMarkdown(string $markdown, bool $includeNotes = false): string
     {
         $html = '';
+        if ($this->entity && $this->entity instanceof Course) {
+            $html .= '<div class="index">';
+            $html .= '<h3>Index</h3>';
+            $html .= '<ol>';
+            foreach ($this->entity->getChapters() as $chapter) {
+                $html .= '<li>';
+                $jumpName = str_replace('/', '-', $chapter->getId());
+                $html .= '<a href="#' . $jumpName . '">' . $chapter->getTitle() . '</a>';
+                $html .= '<ol>';
+                foreach ($chapter->getLessons() as $lesson) {
+                    $html .= '<li>';
+                    $jumpName = str_replace('/', '-', $lesson->getId());
+                    $html .= '<a href="#' . $jumpName . '">' . $lesson->getTitle() . '</a>';
+                    $html .= '</li>';
+                }
+                $html .= '</ol>';
+                $html .= '</li>';
+            }
+
+            $html .= '</ol>';
+            $html .= '</div>';
+        }
+
         $chunks = explode('---', $markdown);
         foreach ($chunks as $chunk) {
             $chunk = explode('???', $chunk);
@@ -32,9 +60,20 @@ class HtmlGenerator
     }
 
     /**
+     * @param AbstractEntity $entity
+     * @return HtmlGenerator
+     */
+    public function setEntity(AbstractEntity $entity): HtmlGenerator
+    {
+        $this->entity = $entity;
+        return $this;
+    }
+
+    /**
      * @param string $markdown
      * @param string $type
      * @return string
+     * @todo Move this into separate parser classes (just like with Markdown\ParseInterface)
      */
     private function parseMarkdown(string $markdown, string $type): string
     {
@@ -47,6 +86,11 @@ class HtmlGenerator
         if (preg_match('/^class: (.*)/', $markdown, $match)) {
             $cssClasses = array_merge($cssClasses, explode(',', $match[1]));
             $markdown = str_replace($match[0], '', $markdown);
+        }
+
+        if (preg_match('/name: (.*)/', $markdown, $match)) {
+            $jumpName = str_replace('/', '-', $match[1]);
+            $markdown = str_replace($match[0], '<a name="'.$jumpName.'"></a>', $markdown);
         }
 
         $markdown = str_replace('<?php ', '', $markdown);
@@ -74,13 +118,11 @@ class HtmlGenerator
             $markdown
         );
 
-
         //return $markdown;
         $markdown = $converter->convertToHtml($markdown);
-        $markdown = '<div class="'.implode(' ', $cssClasses).'"><div>' . $markdown . "</div></div>\n";
+        $markdown = '<div class="' . implode(' ', $cssClasses) . '"><div>' . $markdown . "</div></div>\n";
 
         return $markdown;
-
     }
 
     /**
@@ -94,7 +136,7 @@ class HtmlGenerator
         $html .= '<style>' . $this->getInlineCss() . '</style>';
         $html .= '</head>';
         $html .= '<body>';
-        $html .= '<div class="logo"><img width="80" src="' . $this->getLogoImageAsString() . '"/></div>'."\n";
+        $html .= '<div class="logo"><img width="80" src="' . $this->getLogoImageAsString() . '"/></div>' . "\n";
         $html .= '{body}';
         $html .= '</body>';
         $html .= '</html>';

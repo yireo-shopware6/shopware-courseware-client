@@ -2,7 +2,9 @@
 
 namespace Shopware\CoursewareCli;
 
+use Shopware\Courseware\Entity\Course;
 use Shopware\Courseware\Filesystem\Reader;
+use Shopware\Courseware\Html\Parser as HtmlParser;
 use Shopware\Courseware\Util\Config;
 use Shopware\Courseware\Util\HtmlGenerator;
 use Shopware\Courseware\Util\PdfGenerator;
@@ -41,11 +43,16 @@ class CoursePdf extends Command
         $htmlFile = $coursewareDir.'/'.$course->getId().'/COURSEWARE.html';
 
         $markdown = $course->getMarkdown();
-        $html = (new HtmlGenerator())->fromMarkdown($markdown);
+        $html = (new HtmlGenerator())->setEntity($course)->fromMarkdown($markdown);
         file_put_contents($htmlFile, $html);
 
         (new PdfGenerator())->fromHtmlFile($htmlFile);
 
         return Command::SUCCESS;
+    }
+
+    private function getIndexHtml(Course $course): string
+    {
+
     }
 }

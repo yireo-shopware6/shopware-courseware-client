@@ -35,6 +35,7 @@ class AutoHeading implements ParserInterface
         $lines = explode("\n", $slide);
         foreach ($lines as $line) {
             $line = trim($line);
+            $line = preg_replace('/^name: (.*)$/', '', $line);
             if (empty($line)) continue;
             if (!preg_match('/^#/', $line)) return false;
         }
