@@ -23,7 +23,7 @@ class HtmlGenerator
     {
         $html = '';
         if ($this->entity && $this->entity instanceof Course) {
-            $html .= '<div class="index">';
+            $html .= '<div class="index" id="top">';
             $html .= '<h3>Index</h3>';
             $html .= '<ol>';
             foreach ($this->entity->getChapters() as $chapter) {
@@ -83,7 +83,7 @@ class HtmlGenerator
         $markdown = (new Parser())->parse($markdown);
         $markdown = trim($markdown);
 
-        if (preg_match('/^class: (.*)/', $markdown, $match)) {
+        if (preg_match('/class: (.*)/', $markdown, $match)) {
             $cssClasses = array_merge($cssClasses, explode(',', $match[1]));
             $markdown = str_replace($match[0], '', $markdown);
         }
@@ -91,6 +91,10 @@ class HtmlGenerator
         if (preg_match('/name: (.*)/', $markdown, $match)) {
             $jumpName = str_replace('/', '-', $match[1]);
             $markdown = str_replace($match[0], '<a name="'.$jumpName.'"></a>', $markdown);
+        }
+
+        if (preg_match('/\s--\s/', $markdown, $match)) {
+            $markdown = str_replace($match[0], '', $markdown);
         }
 
         $markdown = str_replace('<?php ', '', $markdown);
@@ -120,7 +124,7 @@ class HtmlGenerator
 
         //return $markdown;
         $markdown = $converter->convertToHtml($markdown);
-        $markdown = '<div class="' . implode(' ', $cssClasses) . '"><div>' . $markdown . "</div></div>\n";
+        $markdown = '<div class="' . implode(' ', $cssClasses) . '"><div>' . $markdown . "</div></div><a href=\"#top\" class=\"toplink\">back to index</a>\n";
 
         return $markdown;
     }

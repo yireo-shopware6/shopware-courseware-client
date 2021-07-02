@@ -22,9 +22,14 @@ class PdfGenerator
         $pdfFile = preg_replace('/\.html$/', '.pdf', $htmlFile);
 
         $args = [];
-        $args[] = '-B 20mm';
+        $args[] = '-B 30mm';
         $args[] = '-T 20mm';
+        $args[] = '-L 20mm';
+        $args[] = '-R 30mm';
+        $args[] = '--enable-local-file-access';
 
-        exec('wkhtmltopdf ' . implode(' ', $args) . ' ' . $htmlFile . ' ' . $pdfFile);
+        $str = 'wkhtmltopdf ' . implode(' ', $args) . ' ' . $htmlFile . ' ' . $pdfFile;
+        echo $str.PHP_EOL;
+        exec($str);
     }
 }

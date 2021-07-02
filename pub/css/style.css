@@ -10,7 +10,7 @@
 }
 
 html, body {
-    font-family: 'Calibri', 'Barlow', sans-serif;
+    font-family: 'Barlow', 'Calibri', sans-serif;
     line-height:200%;
 }
 
@@ -24,6 +24,7 @@ a {
 
 .remark-slide-content h1 {
     font-size: 36px;
+    text-transform: capitalize;
 }
 
 .remark-slide-content h2 {
@@ -40,10 +41,14 @@ a {
 
 .remark-slide-content.center.middle h3,
 .remark-code {
-    background-color: #f8f8f8;
-    border-top: 2px solid rgb(230, 230, 230);
     border-bottom: 3px solid rgb(220, 220, 220);
+    padding:1rem 0;
 
+}
+
+.remark-inline-code {
+    vertical-align: 2px;
+    padding: 0 6px;
 }
 
 .file > p,

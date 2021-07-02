@@ -1,15 +1,20 @@
 body {
-    padding: 40px 100px 40px 100px;
     font-size: 1.2rem;
+    padding:3rem;
+}
+
+.toplink {
+    display: none;
 }
 
 .slide {
-    max-width:80%;
-    min-height: 400px;
+    width:20cm;
+    min-height: 11.25cm;
     border: 1px solid #333;
     box-shadow: 2px 3px 3px #aaa;
     margin-bottom: 40px;
     padding: 40px;
+    page-break-before: always;
 }
 
 .slide.center {
@@ -35,7 +40,7 @@ h2, h3 {
     color: rgb(24, 158, 255);
 }
 
-a, strong { color: rgb(3, 62, 106); }
+a, strong { color: rgb(24, 158, 255); }
 
 .logo {
     position: fixed;
@@ -45,7 +50,11 @@ a, strong { color: rgb(3, 62, 106); }
 }
 
 @media print {
-    .pagebreak {
-        break-after:page;
+    body {
+        padding:0rem;
+    }
+
+    .toplink {
+        display:block;
     }
 }
