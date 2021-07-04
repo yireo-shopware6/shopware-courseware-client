@@ -25,25 +25,35 @@ a {
 .remark-slide-content h1 {
     font-size: 36px;
     text-transform: capitalize;
+    padding-bottom:1rem;
+    border-bottom:.125rem solid rgb(220,220,220);
+}
+
+.remark-slide-content h1 .remark-inline-code {
+    text-transform: none;
+}
+
+.remark-slide-content.middle.center h1 {
+    padding:0;
+    border:0;
 }
 
 .remark-slide-content h2 {
-    font-size: 32px;
+    font-size: 30px;
 }
 
 .remark-slide-content h3 {
-    font-size: 28px;
+    font-size: 24px;
 }
 
 .remark-slide-content h4 {
-    font-size: 26px;
+    font-size: 18px;
 }
 
 .remark-slide-content.center.middle h3,
 .remark-code {
     border-bottom: 3px solid rgb(220, 220, 220);
     padding:1rem 0;
-
 }
 
 .remark-inline-code {
