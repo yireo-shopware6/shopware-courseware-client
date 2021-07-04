@@ -12,12 +12,15 @@ abstract class AbstractEntity
     /**
      * @var JsonFile
      */
-    protected $jsonFile;
+    protected JsonFile $jsonFile;
 
     /**
      * @var MarkdownFile
      */
-    protected $markdownFile;
+    protected MarkdownFile $markdownFile;
+
+    /** @var string[] */
+    private array $markdownCharacterReplacement = ['#' => '', '_' => ''];
 
     /**
      * @return string
@@ -48,6 +51,14 @@ abstract class AbstractEntity
         $id = preg_replace('/\.json$/', '', $this->getJsonFile()->getRelativePath());
         $id = preg_replace('/\/main/', '', $id);
         return $id;
+    }
+
+    public function getTitleWithoutMarkdown(): string
+    {
+        $title = $this->getTitle();
+
+        return strtr($title, $this->markdownCharacterReplacement);
+
     }
 
     /**

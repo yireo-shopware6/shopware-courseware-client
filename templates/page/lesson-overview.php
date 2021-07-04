@@ -15,8 +15,8 @@ $excludedStatuses = isset($_GET['excludedStatuses']) ? explode(',', $_GET['exclu
 $course = $reader->getCourseById($courseId);
 
 ?>
-<h1>Lessons of "<?= $course->getTitle() ?>"</h1>
-
+<h1>Lessons of "<?= $course->getTitleWithoutMarkdown() ?>"</h1>
+<p><a href="/">Course Overview</a></p>
 <form method="get">
     <input type="hidden" name="course_id" value="<?= $courseId ?>"/>
     <input type="hidden" name="page" value="lesson-overview"/>
@@ -48,7 +48,7 @@ $course = $reader->getCourseById($courseId);
         }
 
         $chapter = $lesson->getChapter();
-        $currentChapterTitle = $chapterTitle = $chapter->getTitle();
+        $currentChapterTitle = $chapterTitle = $chapter->getTitleWithoutMarkdown();
         $chapterTitle = $oldTitle !== $currentChapterTitle? $currentChapterTitle : '';
         $oldTitle = $currentChapterTitle;
         ?>

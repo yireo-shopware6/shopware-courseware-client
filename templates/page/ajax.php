@@ -2,7 +2,6 @@
 
 use Shopware\Courseware\Filesystem\Reader;
 use Shopware\Courseware\Markdown\Parser as MarkdownParser;
-use Shopware\Courseware\Html\Parser as HtmlParser;
 use Shopware\Courseware\Util\HtmlGenerator;
 
 /** @var Reader $reader */

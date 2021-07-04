@@ -18,7 +18,7 @@ $this->layout('layout/default', ['title' => 'Course overview']);
     <tbody>
     <?php foreach ($reader->getCourses() as $course): ?>
         <tr>
-            <td><a href="index.php?page=slide&type=course&id=<?= $course->getId() ?>"><?= $course->getTitle() ?></a></td>
+            <td><a href="index.php?page=slide&type=course&id=<?= $course->getId() ?>"><?= $course->getTitleWithoutMarkdown() ?></a></td>
             <td><?= $course->getSlidesNumber() ?></td>
             <td><?= count($course->getChapters()) ?></td>
             <td><a href="index.php?page=lesson-overview&course_id=<?= $course->getId() ?>"><?= count($course->getLessons()) ?></a></td>

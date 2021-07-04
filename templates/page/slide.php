@@ -8,13 +8,13 @@ $type = $_GET['type'];
 $entity = $reader->getEntityByIdAndType($type, $id);
 $courseId = substr($id, 0, (int)strpos($id, '/'));
 
-$this->layout('layout/minimal', ['title' => $entity->getTitle()]);
 $backlink = '';
 
 if($type !== 'course'){
     $backlink = '?page=lesson-overview&course_id=' . $courseId;
 }
 
+$this->layout('layout/minimal', ['title' => $entity->getTitleWithoutMarkdown()]);
 ?>
 <textarea id="source"></textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
