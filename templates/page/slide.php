@@ -9,6 +9,12 @@ $entity = $reader->getEntityByIdAndType($type, $id);
 $courseId = substr($id, 0, (int)strpos($id, '/'));
 
 $this->layout('layout/minimal', ['title' => $entity->getTitle()]);
+$backlink = '';
+
+if($type !== 'course'){
+    $backlink = '?page=lesson-overview&course_id=' . $courseId;
+}
+
 ?>
 <textarea id="source"></textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -24,7 +30,7 @@ $this->layout('layout/minimal', ['title' => $entity->getTitle()]);
     });
     window.addEventListener("keyup", function(e){
         if(e.code === 'Escape') {
-            window.location.href='/index.php?page=lesson-overview&course_id=<?= $courseId ?>';
+            window.location.href='<?= '/index.php' . $backlink ?>';
             return true;
         }
 
