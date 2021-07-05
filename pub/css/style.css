@@ -188,3 +188,33 @@ ul ul {
 ul ul ul {
     list-style-type: circle
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom:2rem;
+}
+
+table th,
+table td {
+    padding:.25rem .75rem;
+    vertical-align: top;
+}
+
+table th {
+    border-bottom: .125rem solid rgb(220, 220, 220);
+    text-align: left;
+}
+
+table td {
+    border-bottom: 1px solid rgb(240, 240, 240);
+}
+
+table tr:last-child td {
+    border-bottom: .125rem solid rgb(220, 220, 220);
+}
+
+
+table.definition td:first-child {
+    width: 25%;
+}
