@@ -27,6 +27,7 @@ class PdfGenerator
         $args[] = '-L 20mm';
         $args[] = '-R 30mm';
         $args[] = '--enable-local-file-access';
+        $args[] = '--encoding "UTF-8"';
 
         $str = 'wkhtmltopdf ' . implode(' ', $args) . ' ' . $htmlFile . ' ' . $pdfFile;
         echo $str.PHP_EOL;
