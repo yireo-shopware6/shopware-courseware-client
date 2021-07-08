@@ -7,6 +7,10 @@ body {
     display: none;
 }
 
+body > ol > li:first-child {
+    list-style-type: none;
+}
+
 .slide {
     width:20cm;
     min-height: 11.25cm;

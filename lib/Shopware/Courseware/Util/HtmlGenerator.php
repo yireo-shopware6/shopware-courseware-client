@@ -53,7 +53,7 @@ class HtmlGenerator
                 $html .= $this->parseMarkdown($chunk[1], 'notes');
             }
 
-            $html .= '<div class="pagebreak"></div>';
+            $html .= '</li><div class="pagebreak"></div><li>';
         }
 
         return str_replace('{body}', $html, $this->getHtmlWrapper());
@@ -141,7 +141,7 @@ class HtmlGenerator
         $html .= '</head>';
         $html .= '<body>';
         $html .= '<div class="logo"><img width="80" src="' . $this->getLogoImageAsString() . '"/></div>' . "\n";
-        $html .= '{body}';
+        $html .= '<ol><li>{body}</li></ol>';
         $html .= '</body>';
         $html .= '</html>';
         return $html;
