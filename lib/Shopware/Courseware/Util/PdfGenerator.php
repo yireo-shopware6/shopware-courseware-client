@@ -4,11 +4,22 @@ namespace Shopware\Courseware\Util;
 
 class PdfGenerator
 {
+    private $config;
+
+    /**
+     * PdfGenerator constructor.
+     * @param GeneratorConfig $config
+     */
+    public function __construct(GeneratorConfig $config)
+    {
+        $this->config = $config;
+    }
+
     public function fromMarkdownFile(string $markdownFile)
     {
         $markdown = file_get_contents($markdownFile);
         $htmlFile = preg_replace('/\.md$/', '.html', $markdownFile);
-        $html = (new HtmlGenerator())->fromMarkdown($markdown);
+        $html = (new HtmlGenerator($this->config))->fromMarkdown($markdown);
         file_put_contents($htmlFile, $html);
 
         $this->fromHtmlFile($htmlFile);
@@ -30,7 +41,7 @@ class PdfGenerator
         $args[] = '--encoding "UTF-8"';
 
         $str = 'wkhtmltopdf ' . implode(' ', $args) . ' ' . $htmlFile . ' ' . $pdfFile;
-        echo $str.PHP_EOL;
+        echo $str . PHP_EOL;
         exec($str);
     }
 }

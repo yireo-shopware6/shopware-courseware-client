@@ -6,6 +6,7 @@ use Shopware\Courseware\Entity\Course;
 use Shopware\Courseware\Filesystem\Reader;
 use Shopware\Courseware\Html\Parser as HtmlParser;
 use Shopware\Courseware\Util\Config;
+use Shopware\Courseware\Util\GeneratorConfig;
 use Shopware\Courseware\Util\HtmlGenerator;
 use Shopware\Courseware\Util\PdfGenerator;
 use Symfony\Component\Console\Command\Command;
@@ -43,10 +44,11 @@ class CoursePdf extends Command
         $htmlFile = $coursewareDir.'/'.$course->getId().'/COURSEWARE.html';
 
         $markdown = $course->getMarkdown();
-        $html = (new HtmlGenerator())->setEntity($course)->fromMarkdown($markdown);
+        $generatorConfig = new GeneratorConfig();
+        $html = (new HtmlGenerator($generatorConfig))->setEntity($course)->fromMarkdown($markdown);
         file_put_contents($htmlFile, $html);
 
-        (new PdfGenerator())->fromHtmlFile($htmlFile);
+        (new PdfGenerator($generatorConfig))->fromHtmlFile($htmlFile);
 
         return Command::SUCCESS;
     }
