@@ -203,15 +203,14 @@ class HtmlGenerator
         return __DIR__ . '/../../../../';
     }
 
-    private function getChunksHtmlArrayFromMarkdown(string $markdown, bool $includeNotes): array
+    private function getChunksHtmlArrayFromMarkdown(string $markdown): array
     {
         $chunks = explode('---', $markdown);
         $chunksHtml = [];
         foreach ($chunks as $chunk) {
             $chunk = explode('???', $chunk);
-            $chunkHtml = '';
-            $chunkHtml .= $this->parseMarkdown($chunk[0], 'slide');
-            if ($includeNotes && isset($chunk[1]) && !empty($chunk[1])) {
+            $chunkHtml = $this->parseMarkdown($chunk[0], 'slide');
+            if (!empty($chunk[1]) && $this->config->isIncludeNotes()) {
                 $chunkHtml .= $this->parseMarkdown($chunk[1], 'notes');
             }
             $chunksHtml[] = $chunkHtml;
