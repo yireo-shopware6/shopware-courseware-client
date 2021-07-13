@@ -51,7 +51,7 @@ class Chapter extends AbstractEntity
         }
 
         if ($showChapterOverview) {
-            $markdown .= "# Chapter overview\n";
+            $markdown .= "# Lessons overview\n";
             foreach ($this->getAllowedLessons($allowPublishingOnly) as $lesson) {
                 $markdown .= "1. " . $lesson->getTitle() . "\n";
             }
