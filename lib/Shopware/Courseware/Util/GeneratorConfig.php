@@ -9,12 +9,6 @@ class GeneratorConfig
     private bool $backToIndex;
     private bool $wrapSlides;
 
-    /**
-     * Config constructor.
-     * @param bool $includeNotes
-     * @param bool $addPageBreak
-     * @param bool $backToIndex
-     */
     public function __construct(
         bool $includeNotes = false,
         bool $addPageBreak = true,
@@ -27,33 +21,21 @@ class GeneratorConfig
         $this->wrapSlides = $wrapSlides;
     }
 
-    /**
-     * @return bool
-     */
     public function isIncludeNotes(): bool
     {
         return $this->includeNotes;
     }
 
-    /**
-     * @return bool
-     */
     public function isAddPageBreak(): bool
     {
         return $this->addPageBreak;
     }
 
-    /**
-     * @return bool
-     */
     public function isBackToIndex(): bool
     {
         return $this->backToIndex;
     }
 
-    /**
-     * @return bool
-     */
     public function isWrapSlides(): bool
     {
         return $this->wrapSlides;

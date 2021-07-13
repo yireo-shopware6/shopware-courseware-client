@@ -4,7 +4,6 @@ namespace Shopware\CoursewareCli;
 
 use Shopware\Courseware\Entity\Course;
 use Shopware\Courseware\Filesystem\Reader;
-use Shopware\Courseware\Html\Parser as HtmlParser;
 use Shopware\Courseware\Util\Config;
 use Shopware\Courseware\Util\GeneratorConfig;
 use Shopware\Courseware\Util\HtmlGenerator;
@@ -22,26 +21,22 @@ class CoursePdf extends Command
     protected function configure()
     {
         $this->setName('course:pdf')
-            ->setDescription('Create a PDF for a course')
-            ->addArgument('path', InputArgument::REQUIRED, 'Course path');
+             ->setDescription('Create a PDF for a course')
+             ->addArgument('path', InputArgument::REQUIRED, 'Course path');
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $path = (string)$input->getArgument('path');
+        $path = (string) $input->getArgument('path');
         if (empty($path)) {
             $output->writeln('<error>Path argument is required</error>');
+
             return Command::FAILURE;
         }
 
         $coursewareDir = Config::getInstance()->getCoursewareDir();
         $course = Reader::getInstance()->getCourseById($path);
-        $htmlFile = $coursewareDir.'/'.$course->getId().'/COURSEWARE.html';
+        $htmlFile = $coursewareDir . '/' . $course->getId() . '/COURSEWARE.html';
 
         $markdown = $course->getMarkdown();
         $generatorConfig = new GeneratorConfig();
@@ -53,8 +48,4 @@ class CoursePdf extends Command
         return Command::SUCCESS;
     }
 
-    private function getIndexHtml(Course $course): string
-    {
-
-    }
 }

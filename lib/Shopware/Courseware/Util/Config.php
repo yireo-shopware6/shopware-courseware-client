@@ -8,54 +8,55 @@ use Shopware\Courseware\Exception\FolderNotFoundException;
 class Config
 {
     /**
+     * @var Config
+     */
+    private static $instance = null;
+    /**
      * @var string
      */
     private $basePath;
-
     /**
      * @var array
      */
     private $data = [];
 
     /**
-     * @var Config
-     */
-    private static $instance = null;
-
-    /**
      * @return Config|null
      */
     public static function getInstance()
     {
-        if (self::$instance == null) {
-            self::$instance = new Config();
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
-    /**
-     * @param string $basePath
-     * @return $this
-     */
-    public function setBasePath(string $basePath): Config
-    {
-        $this->basePath = $basePath;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getBasePath(): string
     {
         return $this->basePath;
     }
 
+    public function setBasePath(string $basePath): Config
+    {
+        $this->basePath = $basePath;
+
+        return $this;
+    }
+
     /**
-     * @return array
-     * @throws Exception
+     * @throws FolderNotFoundException
      */
+    public function getCoursewareDir(): string
+    {
+        $coursewareDir = $this->get()['courseware_dir'];
+        if (!is_dir($coursewareDir)) {
+            throw new FolderNotFoundException('Config value "courseware_dir" is invalid: ' . $coursewareDir);
+        }
+
+        return $coursewareDir;
+    }
+
     public function get(): array
     {
         if (!empty($this->data)) {
@@ -76,20 +77,7 @@ class Config
         }
 
         $this->data = $config;
+
         return $this->data;
-    }
-
-    /**
-     * @return string
-     * @throws Exception
-     */
-    public function getCoursewareDir(): string
-    {
-        $coursewareDir = $this->get()['courseware_dir'];
-        if (!is_dir($coursewareDir)) {
-            throw new FolderNotFoundException('Config value "courseware_dir" is invalid: ' . $coursewareDir);
-        }
-
-        return $coursewareDir;
     }
 }
