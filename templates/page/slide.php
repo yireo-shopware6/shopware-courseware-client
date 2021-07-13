@@ -20,6 +20,7 @@ $this->layout('layout/minimal', ['title' => $entity->getTitleWithoutMarkdown()])
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>
     var slideshow = remark.create({
+        ratio: '16:9',
         navigation: {
             scroll: <?= $_ENV['REMARK_SCROLL'] ?? 'false' ?>,
             touch: <?= $_ENV['REMARK_TOUCH'] ?? 'true' ?>,
