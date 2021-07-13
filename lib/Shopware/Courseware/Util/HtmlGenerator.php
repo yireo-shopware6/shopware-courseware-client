@@ -15,6 +15,7 @@ class HtmlGenerator
 
     /**
      * HtmlGenerator constructor.
+     *
      * @param GeneratorConfig $config
      */
     public function __construct(GeneratorConfig $config)
@@ -24,10 +25,19 @@ class HtmlGenerator
 
     /**
      * @param string $markdown
+     *
      * @return string
      * @throws FileNotFoundException
      */
     public function fromMarkdown(string $markdown): string
+    {
+        $html = $this->getIndexHtml();
+        $html .= $this->getChunksHtmlFromMarkdown($markdown);
+
+        return str_replace('{body}', $html, $this->getHtmlWrapper());
+    }
+
+    private function getIndexHtml(): string
     {
         $html = '';
         if (!empty($this->entity) && $this->entity instanceof Course) {
@@ -53,26 +63,29 @@ class HtmlGenerator
             $html .= '</div>';
         }
 
-        $chunksHtml = $this->getChunksHtmlArrayFromMarkdown($markdown);
-        $html = $this->glueChunksHtml($chunksHtml, $html);
-
-
-        return str_replace('{body}', $html, $this->getHtmlWrapper());
+        return $html;
     }
 
-    /**
-     * @param AbstractEntity $entity
-     * @return HtmlGenerator
-     */
-    public function setEntity(AbstractEntity $entity): HtmlGenerator
+    private function getChunksHtmlFromMarkdown(string $markdown): string
     {
-        $this->entity = $entity;
-        return $this;
+        $chunks = explode('---', $markdown);
+        $chunksHtml = [];
+        foreach ($chunks as $chunk) {
+            $chunk = explode('???', $chunk);
+            $chunkHtml = $this->parseMarkdown($chunk[0], 'slide');
+            if (!empty($chunk[1]) && $this->config->isIncludeNotes()) {
+                $chunkHtml .= $this->parseMarkdown($chunk[1], 'notes');
+            }
+            $chunksHtml[] = $chunkHtml;
+        }
+
+        return $this->glueChunksHtml($chunksHtml);
     }
 
     /**
      * @param string $markdown
      * @param string $type
+     *
      * @return string
      * @todo Move this into separate parser classes (just like with Markdown\ParseInterface)
      */
@@ -128,8 +141,8 @@ class HtmlGenerator
 
         if ($this->config->isWrapSlides()) {
             $markdown = '<div class="' . implode(' ', $cssClasses) . '">'
-                . '<div>' . $markdown . '</div>'
-                . '</div>';
+                        . '<div>' . $markdown . '</div>'
+                        . '</div>';
         }
 
         if ($this->config->isBackToIndex()) {
@@ -137,6 +150,16 @@ class HtmlGenerator
         }
 
         return $markdown;
+    }
+
+    private function glueChunksHtml(array $chunksHtml): string
+    {
+        $glue = '';
+        if ($this->config->isAddPageBreak()) {
+            $glue = '</li><div class="pagebreak"></div><li>';
+        }
+
+        return implode($glue, $chunksHtml);
     }
 
     /**
@@ -154,6 +177,7 @@ class HtmlGenerator
         $html .= '<ol><li>{body}</li></ol>';
         $html .= '</body>';
         $html .= '</html>';
+
         return $html;
     }
 
@@ -168,21 +192,13 @@ class HtmlGenerator
         $inlineCss .= $this->getContentsFromFile($this->getAppRoot() . '/pub/css/print.css');
 
         $fontsDir = Config::getInstance()->getBasePath() . '/pub/fonts/';
+
         return str_replace('../fonts/', $fontsDir, $inlineCss);
     }
 
     /**
-     * @return string
-     * @throws FileNotFoundException
-     */
-    private function getLogoImageAsString(): string
-    {
-        $imageString = $this->getContentsFromFile($this->getAppRoot() . '/pub/images/shopware.png');
-        return 'data:image/png;base64,' . base64_encode($imageString);
-    }
-
-    /**
      * @param string $file
+     *
      * @return string
      * @throws FileNotFoundException
      */
@@ -203,31 +219,26 @@ class HtmlGenerator
         return __DIR__ . '/../../../../';
     }
 
-    private function getChunksHtmlArrayFromMarkdown(string $markdown): array
+    /**
+     * @return string
+     * @throws FileNotFoundException
+     */
+    private function getLogoImageAsString(): string
     {
-        $chunks = explode('---', $markdown);
-        $chunksHtml = [];
-        foreach ($chunks as $chunk) {
-            $chunk = explode('???', $chunk);
-            $chunkHtml = $this->parseMarkdown($chunk[0], 'slide');
-            if (!empty($chunk[1]) && $this->config->isIncludeNotes()) {
-                $chunkHtml .= $this->parseMarkdown($chunk[1], 'notes');
-            }
-            $chunksHtml[] = $chunkHtml;
-        }
+        $imageString = $this->getContentsFromFile($this->getAppRoot() . '/pub/images/shopware.png');
 
-        return $chunksHtml;
+        return 'data:image/png;base64,' . base64_encode($imageString);
     }
 
-    private function glueChunksHtml(array $chunksHtml, string $html): string
+    /**
+     * @param AbstractEntity $entity
+     *
+     * @return HtmlGenerator
+     */
+    public function setEntity(AbstractEntity $entity): HtmlGenerator
     {
-        $glue = '';
-        if ($this->config->isAddPageBreak()) {
-            $glue = '</li><div class="pagebreak"></div><li>';
-        }
+        $this->entity = $entity;
 
-        $html .= implode($glue, $chunksHtml);
-
-        return $html;
+        return $this;
     }
 }
