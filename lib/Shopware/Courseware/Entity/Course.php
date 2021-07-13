@@ -57,7 +57,10 @@ class Course extends AbstractEntity
 
         // Chapters
         $i = 1;
-        foreach ($this->getChapters() as $chapter) {
+
+        $chapters = $this->getChapters();
+        $chapterCount = count($chapters);
+        foreach ($chapters as $chapter) {
             $chapterMarkdown = trim($chapter->getMarkdown(false));
             if (empty($chapterMarkdown)) {
                 continue;
@@ -68,9 +71,16 @@ class Course extends AbstractEntity
             $markdown .= "# " . $chapter->getTitle() . "\n";
             $markdown .= "\n---\n";
             $markdown .= $chapterMarkdown;
-            $markdown .= $this->getCourseOverviewMarkdown();
             $i++;
+
+            // prevent last slides to be another chapter overview + empty slide
+            if($i < $chapterCount){
+                $markdown .= $this->getCourseOverviewMarkdown();
+            }
+
         }
+
+        $markdown = substr($markdown, 0, -4);
 
         return $markdown;
     }

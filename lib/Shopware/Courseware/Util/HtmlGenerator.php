@@ -29,12 +29,12 @@ class HtmlGenerator
             foreach ($this->entity->getChapters() as $chapter) {
                 $html .= '<li>';
                 $jumpName = str_replace('/', '-', $chapter->getId());
-                $html .= '<a href="#' . $jumpName . '">' . $chapter->getTitle() . '</a>';
+                $html .= '<a href="#' . $jumpName . '">' . $chapter->getTitleWithoutMarkdown() . '</a>';
                 $html .= '<ol>';
                 foreach ($chapter->getLessons() as $lesson) {
                     $html .= '<li>';
                     $jumpName = str_replace('/', '-', $lesson->getId());
-                    $html .= '<a href="#' . $jumpName . '">' . $lesson->getTitle() . '</a>';
+                    $html .= '<a href="#' . $jumpName . '">' . $lesson->getTitleWithoutMarkdown() . '</a>';
                     $html .= '</li>';
                 }
                 $html .= '</ol>';
@@ -45,16 +45,11 @@ class HtmlGenerator
             $html .= '</div>';
         }
 
-        $chunks = explode('---', $markdown);
-        foreach ($chunks as $chunk) {
-            $chunk = explode('???', $chunk);
-            $html .= $this->parseMarkdown($chunk[0], 'slide');
-            if ($includeNotes && isset($chunk[1]) && !empty($chunk[1])) {
-                $html .= $this->parseMarkdown($chunk[1], 'notes');
-            }
+        $chunksHtml = $this->getChunksHtmlArrayFromMarkdown($markdown, $includeNotes);
 
-            $html .= '</li><div class="pagebreak"></div><li>';
-        }
+        $html .= implode('</li><div class="pagebreak"></div><li>', $chunksHtml);
+
+
 
         return str_replace('{body}', $html, $this->getHtmlWrapper());
     }
@@ -191,5 +186,22 @@ class HtmlGenerator
     private function getAppRoot(): string
     {
         return __DIR__ . '/../../../../';
+    }
+
+    private function getChunksHtmlArrayFromMarkdown(string $markdown, bool $includeNotes): array
+    {
+        $chunks = explode('---', $markdown);
+        $chunksHtml = [];
+        foreach ($chunks as $chunk) {
+            $chunk = explode('???', $chunk);
+            $chunkHtml = '';
+            $chunkHtml .= $this->parseMarkdown($chunk[0], 'slide');
+            if ($includeNotes && isset($chunk[1]) && !empty($chunk[1])) {
+                $chunkHtml .= $this->parseMarkdown($chunk[1], 'notes');
+            }
+            $chunksHtml[] = $chunkHtml;
+        }
+
+        return $chunksHtml;
     }
 }

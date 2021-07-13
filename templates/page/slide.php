@@ -21,6 +21,7 @@ $this->layout('layout/minimal', ['title' => $entity->getTitleWithoutMarkdown()])
 <script>
     var slideshow = remark.create({
         ratio: '16:9',
+        countIncrementalSlides: false,
         navigation: {
             scroll: <?= $_ENV['REMARK_SCROLL'] ?? 'false' ?>,
             touch: <?= $_ENV['REMARK_TOUCH'] ?? 'true' ?>,
