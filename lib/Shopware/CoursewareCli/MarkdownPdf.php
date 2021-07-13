@@ -3,6 +3,7 @@
 namespace Shopware\CoursewareCli;
 
 use Shopware\Courseware\Util\Config;
+use Shopware\Courseware\Util\GeneratorConfig;
 use Shopware\Courseware\Util\PdfGenerator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,8 +40,9 @@ class MarkdownPdf extends Command
             return 0;
         }
 
-        $pdfGenerator = new PdfGenerator();
-        $pdfGenerator->fromMarkdownFile($markdownFile);
+        $generatorConfig = new GeneratorConfig(false, false, false, false);
+        $pdfGenerator = new PdfGenerator($generatorConfig);
+        $pdfGenerator->fromMarkdownFile($markdownFile, false, false);
 
         return 0;
     }

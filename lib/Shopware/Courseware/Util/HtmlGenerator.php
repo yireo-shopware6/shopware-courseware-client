@@ -10,19 +10,27 @@ use Shopware\Courseware\Markdown\Parser;
 
 class HtmlGenerator
 {
-    /** @var AbstractEntity */
-    private $entity;
+    private AbstractEntity $entity;
+    private GeneratorConfig $config;
+
+    /**
+     * HtmlGenerator constructor.
+     * @param GeneratorConfig $config
+     */
+    public function __construct(GeneratorConfig $config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * @param string $markdown
-     * @param bool $includeNotes
      * @return string
      * @throws FileNotFoundException
      */
-    public function fromMarkdown(string $markdown, bool $includeNotes = false): string
+    public function fromMarkdown(string $markdown): string
     {
         $html = '';
-        if ($this->entity && $this->entity instanceof Course) {
+        if (!empty($this->entity) && $this->entity instanceof Course) {
             $html .= '<div class="index" id="top">';
             $html .= '<h3>Index</h3>';
             $html .= '<ol>';
@@ -45,10 +53,8 @@ class HtmlGenerator
             $html .= '</div>';
         }
 
-        $chunksHtml = $this->getChunksHtmlArrayFromMarkdown($markdown, $includeNotes);
-
-        $html .= implode('</li><div class="pagebreak"></div><li>', $chunksHtml);
-
+        $chunksHtml = $this->getChunksHtmlArrayFromMarkdown($markdown);
+        $html = $this->glueChunksHtml($chunksHtml, $html);
 
 
         return str_replace('{body}', $html, $this->getHtmlWrapper());
@@ -85,7 +91,7 @@ class HtmlGenerator
 
         if (preg_match('/name: (.*)/', $markdown, $match)) {
             $jumpName = str_replace('/', '-', $match[1]);
-            $markdown = str_replace($match[0], '<a name="'.$jumpName.'"></a>', $markdown);
+            $markdown = str_replace($match[0], '<a name="' . $jumpName . '"></a>', $markdown);
         }
 
         if (preg_match('/\s--\s/', $markdown, $match)) {
@@ -119,7 +125,16 @@ class HtmlGenerator
 
         //return $markdown;
         $markdown = $converter->convertToHtml($markdown);
-        $markdown = '<div class="' . implode(' ', $cssClasses) . '"><div>' . $markdown . "</div></div><a href=\"#top\" class=\"toplink\">back to index</a>\n";
+
+        if ($this->config->isWrapSlides()) {
+            $markdown = '<div class="' . implode(' ', $cssClasses) . '">'
+                . '<div>' . $markdown . '</div>'
+                . '</div>';
+        }
+
+        if ($this->config->isBackToIndex()) {
+            $markdown .= '<a href="#top" class="toplink">back to index</a>' . "\n";
+        }
 
         return $markdown;
     }
@@ -134,7 +149,7 @@ class HtmlGenerator
         $html .= '<head>';
         $html .= '<style>' . $this->getInlineCss() . '</style>';
         $html .= '</head>';
-        $html .= '<body>';
+        $html .= '<body class="{bodyClass}">';
         $html .= '<div class="logo"><img width="80" src="' . $this->getLogoImageAsString() . '"/></div>' . "\n";
         $html .= '<ol><li>{body}</li></ol>';
         $html .= '</body>';
@@ -203,5 +218,17 @@ class HtmlGenerator
         }
 
         return $chunksHtml;
+    }
+
+    private function glueChunksHtml(array $chunksHtml, string $html): string
+    {
+        $glue = '';
+        if ($this->config->isAddPageBreak()) {
+            $glue = '</li><div class="pagebreak"></div><li>';
+        }
+
+        $html .= implode($glue, $chunksHtml);
+
+        return $html;
     }
 }
