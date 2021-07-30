@@ -8,6 +8,7 @@ $this->layout('layout/default', ['title' => 'Course overview']);
 <table class="table table-striped">
     <thead>
     <tr>
+        <th></th>
         <th>Course</th>
         <th>Slides</th>
         <th>Chapters</th>
@@ -18,10 +19,11 @@ $this->layout('layout/default', ['title' => 'Course overview']);
     <tbody>
     <?php foreach ($reader->getCourses() as $course): ?>
         <tr>
-            <td><a href="index.php?page=slide&type=course&id=<?= $course->getId() ?>"><?= $course->getTitleWithoutMarkdown() ?></a></td>
+            <td><a href="index.php?page=slide&type=course&id=<?= $course->getId() ?>" style="text-decoration: none">▶️</a></td>
+            <td><a href="index.php?page=lesson-overview&course_id=<?= $course->getId() ?>"><?= $course->getTitleWithoutMarkdown() ?></a></td>
             <td><?= $course->getSlidesNumber() ?></td>
             <td><?= count($course->getChapters()) ?></td>
-            <td><a href="index.php?page=lesson-overview&course_id=<?= $course->getId() ?>"><?= count($course->getLessons()) ?></a></td>
+            <td><?= count($course->getLessons()) ?></td>
             <td style="background-color: <?= $course->getStatus()->getColor() ?>"><?= $course->getStatus()->getLabel() ?></td>
         </tr>
     <?php endforeach ?>
