@@ -20,15 +20,18 @@ class Chapter extends AbstractEntity
      * @return Lesson[]
      * @throws Exception
      */
-    public function getAllowedLessons($allowPublishingOnly = true): array
+    public function getAllowedLessons(): array
     {
+        $i = 1;
         $lessons = [];
         foreach ($this->getLessons() as $lesson) {
-            if ($allowPublishingOnly === true && !$lesson->getStatus()->allowPublishing()) {
+            if ($this->context->isAllowPublishingOnly() && !$lesson->getStatus()->allowPublishing()) {
                 continue;
             }
 
+            $lesson->setNumber($i);
             $lessons[] = $lesson;
+            $i++;
         }
 
         return $lessons;
@@ -38,39 +41,52 @@ class Chapter extends AbstractEntity
      * @return string
      * @throws Exception
      */
-    public function getMarkdown(bool $showChapterTitle = true, bool $showChapterOverview = true, $allowPublishingOnly = true): string
+    public function getMarkdown(): string
     {
         $markdown = $this->getMarkdownFile()->getContents();
         if (!empty($markdown)) {
             return $markdown;
         }
 
-        if ($showChapterTitle) {
-            $markdown .= "# " . $this->getTitle() . "\n";
-            $markdown .= "\n---\n";
-        }
-
-        if ($showChapterOverview) {
-            $markdown .= "# Lessons overview\n";
-            $markdown .= ".lessons[\n";
-            foreach ($this->getAllowedLessons($allowPublishingOnly) as $lesson) {
-                $markdown .= "1. " . $lesson->getTitle() . "\n";
-            }
-            $markdown .= "]\n";
+        if ($this->context->isShowChapterOverview()) {
+            $markdown .= $this->getChapterOverviewMarkdown();
         }
 
         // Lessons
-        foreach ($this->getAllowedLessons($allowPublishingOnly) as $lesson) {
-            $lessonMarkdown = trim($lesson->getMarkdown());
+        $i = 1;
+        foreach ($this->getAllowedLessons() as $lesson) {
+            $lesson->setNumber($i);
+            $lessonMarkdown = $lesson->getMarkdown();
             if (empty($lessonMarkdown)) {
                 continue;
             }
 
-            $markdown .= $markdown === '' ? '' : "\n---\n";
-            $markdown .= "name: " . $lesson->getId() . "\n";
-            $markdown .= trim($lessonMarkdown);
+            $markdown .= $lessonMarkdown;
+            if ($this->context->isShowChapterOverview()) {
+                $markdown .= $this->getChapterOverviewMarkdown();
+            }
+
+            $i++;
         }
 
+        return $markdown;
+    }
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    private function getChapterOverviewMarkdown(): string
+    {
+        $markdown = "# Lessons in \"".$this->getTitle()."\"\n";
+        $markdown .= ".lessons[\n";
+
+        foreach ($this->getAllowedLessons() as $lesson) {
+            $prefix = $this->getNumber() . '.' . $lesson->getNumber();
+            $markdown .= '- '.$prefix . " - " . $lesson->getTitle() . "\n";
+        }
+
+        $markdown .= "]\n";
         $markdown .= "\n---\n";
 
         return $markdown;

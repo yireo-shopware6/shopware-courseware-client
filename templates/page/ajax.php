@@ -10,10 +10,7 @@ $id = $_GET['id'];
 $format = isset($_GET['format']) ? $_GET['format'] : 'markdown';
 
 $entity = $reader->getEntityByIdAndType($type, $id);
-$showChapterTitle = !($_ENV['SHOW_CHAPTER_OVERVIEW'] === 'false');
-$showChapterOverview = !($_ENV['SHOW_CHAPTER_TITLE'] === 'false');
-$allowPublishingOnly = !($_ENV['ALLOW_PUBLISHING_ONLY'] === 'false');
-$content = $entity->getMarkdown($showChapterTitle, $showChapterOverview, $allowPublishingOnly);
+$content = $entity->getMarkdown();
 $content = (new MarkdownParser())->parse($content);
 
 if ($format === 'html') {

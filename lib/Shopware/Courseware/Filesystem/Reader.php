@@ -8,6 +8,7 @@ use Shopware\Courseware\Entity\Chapter;
 use Shopware\Courseware\Entity\Course;
 use Shopware\Courseware\Entity\Lesson;
 use Shopware\Courseware\Exception\EntityNotFoundException;
+use Shopware\Courseware\Util\Context;
 
 class Reader
 {
@@ -122,7 +123,7 @@ class Reader
                 continue;
             }
 
-            $this->courses[] = new Course($jsonFile, $jsonFile->getMarkdownFile());
+            $this->courses[] = new Course($jsonFile, $jsonFile->getMarkdownFile(), Context::create());
         }
 
         return $this->courses;
@@ -156,12 +157,16 @@ class Reader
             return $this->chapters;
         }
 
+        $i = 1;
         foreach ($this->getJsonFiles() as $jsonFile) {
             if ($jsonFile->getType() !== 'chapter') {
                 continue;
             }
 
-            $this->chapters[] = new Chapter($jsonFile, $jsonFile->getMarkdownFile());
+            $chapter = new Chapter($jsonFile, $jsonFile->getMarkdownFile(), Context::create());
+            $chapter->setNumber($i);
+            $this->chapters[] = $chapter;
+            $i++;
         }
 
         return $this->chapters;
@@ -174,13 +179,16 @@ class Reader
      */
     public function getChaptersByCourseId(string $courseId): array
     {
+        $i = 1;
         $chapters = [];
         foreach ($this->getChapters() as $chapter) {
             if (!strstr($chapter->getId(), $courseId)) {
                 continue;
             }
 
+            $chapter->setNumber($i);
             $chapters[] = $chapter;
+            $i++;
         }
 
         return $chapters;
@@ -215,12 +223,16 @@ class Reader
         }
 
         $lessons = [];
+        $i = 1;
         foreach ($this->getJsonFiles() as $jsonFile) {
             if ($jsonFile->getType() !== 'lesson') {
                 continue;
             }
 
-            $lessons[] = new Lesson($jsonFile, $jsonFile->getMarkdownFile());
+            $lesson = new Lesson($jsonFile, $jsonFile->getMarkdownFile(), Context::create());
+            $lesson->setNumber($i);
+            $lessons[] = $lesson;
+            $i++;
         }
 
         return $lessons;
@@ -233,13 +245,16 @@ class Reader
      */
     public function getLessonsByIdMatch(string $id): array
     {
+        $i = 1;
         $lessons = [];
         foreach ($this->getLessons() as $lesson) {
             if (!strstr($lesson->getId(), $id)) {
                 continue;
             }
 
+            $lesson->setNumber($i);
             $lessons[] = $lesson;
+            $i++;
         }
 
         return $lessons;

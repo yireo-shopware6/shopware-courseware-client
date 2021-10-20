@@ -36,17 +36,11 @@ class Course extends AbstractEntity
     }
 
     /**
-     * @param bool $showChapterTitle
-     * @param bool $showChapterOverview
-     * @param bool $allowPublishingOnly
      * @return string
      * @throws Exception
      */
-    public function getMarkdown(
-        bool $showChapterTitle = true,
-        bool $showChapterOverview = true,
-        $allowPublishingOnly = true
-    ): string {
+    public function getMarkdown(): string
+    {
         $markdown = $this->getMarkdownFile()->getContents();
         if (!empty($markdown)) {
             return $markdown;
@@ -55,34 +49,31 @@ class Course extends AbstractEntity
         $markdown .= $this->getCourseTitleMarkdown();
         $markdown .= $this->getCourseOverviewMarkdown();
 
-        // Chapters
-        $i = 1;
-
         $chapters = $this->getChapters();
         $chapterCount = count($chapters);
         foreach ($chapters as $chapter) {
-            $chapterMarkdown = trim($chapter->getMarkdown(false));
+            $chapterMarkdown = trim($chapter->getMarkdown());
             if (empty($chapterMarkdown)) {
                 continue;
             }
 
-            $markdown .= "name: " . $chapter->getId() . "\n\n";
-            $markdown .= "#### Chapter " . $this->getChapterPrefix($i) . "\n";
-            $markdown .= "# " . $chapter->getTitle() . "\n";
-            $markdown .= "\n---\n";
+            if ($this->context->isShowChapterTitle()) {
+                $markdown .= "name: " . $chapter->getId() . "\n\n";
+                $markdown .= "#### Chapter " . $chapter->getNumberPrefix() . "\n";
+                $markdown .= "# " . $chapter->getTitle() . "\n";
+                $markdown .= "\n---\n";
+            }
+
             $markdown .= $chapterMarkdown;
-            $i++;
 
             // prevent last slides to be another chapter overview + empty slide
-            if($i < $chapterCount){
+            if($chapter->getNumber() <= $chapterCount){
                 $markdown .= $this->getCourseOverviewMarkdown();
             }
 
         }
 
-        $markdown = substr($markdown, 0, -4);
-
-        return $markdown;
+        return substr($markdown, 0, -4);
     }
 
     /**
@@ -103,23 +94,13 @@ class Course extends AbstractEntity
     {
         $markdown = "# Chapters\n";
         $markdown .= ".chapters[\n";
-        $i = 1;
+
         foreach ($this->getChapters() as $chapter) {
             $markdown .= "1. " . $chapter->getTitle() . "\n";
-            $i++;
         }
 
         $markdown .= "]\n";
         $markdown .= "\n---\n";
         return $markdown;
-    }
-
-    /**
-     * @param int $number
-     * @return string
-     */
-    private function getChapterPrefix(int $number): string
-    {
-        return str_pad((string)$number, 2, '0', STR_PAD_LEFT);
     }
 }

@@ -5,45 +5,32 @@ namespace Shopware\Courseware\Entity;
 use Exception;
 use Shopware\Courseware\Filesystem\JsonFile;
 use Shopware\Courseware\Filesystem\MarkdownFile;
+use Shopware\Courseware\Util\Context;
 use Shopware\Courseware\Util\Status;
 
 abstract class AbstractEntity
 {
-    /**
-     * @var JsonFile
-     */
     protected JsonFile $jsonFile;
-
-    /**
-     * @var MarkdownFile
-     */
     protected MarkdownFile $markdownFile;
+    protected Context $context;
+    protected int $number;
 
     /** @var string[] */
     private array $markdownCharacterReplacement = ['#' => '', '_' => ''];
 
-    /**
-     * @return string
-     */
-    abstract public function getMarkdown(bool $showChapterTitle = true, bool $showChapterOverview = true, $allowPublishingOnly = true): string;
-
-
-
-    /**
-     * Course constructor.
-     * @param JsonFile $jsonFile
-     * @param MarkdownFile $markdownFile
-     */
     public function __construct(
         JsonFile $jsonFile,
-        MarkdownFile $markdownFile
+        MarkdownFile $markdownFile,
+        Context $context
     ) {
         $this->jsonFile = $jsonFile;
         $this->markdownFile = $markdownFile;
+        $this->context = $context;
     }
 
+    abstract public function getMarkdown(): string;
+
     /**
-     * @return string
      * @throws Exception
      */
     public function getId(): string
@@ -56,40 +43,46 @@ abstract class AbstractEntity
     public function getTitleWithoutMarkdown(): string
     {
         $title = $this->getTitle();
-
         return strtr($title, $this->markdownCharacterReplacement);
-
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->getJsonFile()->getTitle();
     }
 
-    /**
-     * @return MarkdownFile
-     */
     public function getMarkdownFile(): MarkdownFile
     {
         return $this->markdownFile;
     }
 
-    /**
-     * @return JsonFile
-     */
     public function getJsonFile(): JsonFile
     {
         return $this->jsonFile;
     }
 
-    /**
-     * @return Status
-     */
     public function getStatus(): Status
     {
         return new Status($this->getJsonFile()->getStatus() ?? 'draft');
+    }
+
+    public function getContext(): Context
+    {
+        return $this->context;
+    }
+
+    public function getNumber(): int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): void
+    {
+        $this->number = $number;
+    }
+
+    public function getNumberPrefix(): string
+    {
+        return str_pad((string)$this->getNumber(), 2, '0', STR_PAD_LEFT);
     }
 }

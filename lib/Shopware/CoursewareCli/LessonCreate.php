@@ -2,6 +2,7 @@
 
 namespace Shopware\CoursewareCli;
 
+use RuntimeException;
 use Shopware\Courseware\Util\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -45,7 +46,7 @@ class LessonCreate extends Command
         if (!is_dir($path)) {
             $output->writeln('Creating folder "' . $path . '"');
             if (!mkdir($path, 0777, true) && !is_dir($path)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
+                throw new RuntimeException(sprintf('Directory "%s" was not created', $path));
             }
         }
 

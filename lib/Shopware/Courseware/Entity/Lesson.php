@@ -9,18 +9,20 @@ use Shopware\Courseware\Filesystem\Reader;
 class Lesson extends AbstractEntity
 {
     /**
-     * @param bool $showChapterTitle
-     * @param bool $showChapterOverview
-     * @param bool $allowPublishingOnly
      * @return string
      */
-    public function getMarkdown(
-        bool $showChapterTitle = true,
-        bool $showChapterOverview = true,
-        $allowPublishingOnly = true
-    ): string {
-        $markdown = $this->getMarkdownFile()->getContents();
+    public function getMarkdown(): string
+    {
+        $lessonMarkdown = $this->getMarkdownFile()->getContents();
+        if (empty($lessonMarkdown)) {
+            return '';
+        }
+
+        $markdown = "name: " . $this->getId() . "\n";
+        $markdown .= $lessonMarkdown;
         $markdown .= $this->getLabs();
+        $markdown = trim($markdown);
+        $markdown .= "\n---\n";
         return $markdown;
     }
 
