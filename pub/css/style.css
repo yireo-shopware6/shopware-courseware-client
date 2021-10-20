@@ -70,6 +70,8 @@ a {
     font-size: 70%;
 }
 
+.lessons ul,
+.lessons ol,
 .chapters ul,
 .chapters ol {
     column-count: 2;
