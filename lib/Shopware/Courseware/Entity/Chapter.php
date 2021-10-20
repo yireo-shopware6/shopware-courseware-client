@@ -52,9 +52,11 @@ class Chapter extends AbstractEntity
 
         if ($showChapterOverview) {
             $markdown .= "# Lessons overview\n";
+            $markdown .= ".lessons[\n";
             foreach ($this->getAllowedLessons($allowPublishingOnly) as $lesson) {
                 $markdown .= "1. " . $lesson->getTitle() . "\n";
             }
+            $markdown .= "]\n";
         }
 
         // Lessons
