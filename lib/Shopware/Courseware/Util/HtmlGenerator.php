@@ -97,6 +97,9 @@ class HtmlGenerator
         $markdown = (new Parser())->parse($markdown);
         $markdown = trim($markdown);
 
+        $markdown = preg_replace('/\.lessons\[/', '', $markdown);
+        $markdown = preg_replace('/^]$/', '', $markdown);
+
         if (preg_match('/class: (.*)/', $markdown, $match)) {
             $cssClasses = array_merge($cssClasses, explode(',', $match[1]));
             $markdown = str_replace($match[0], '', $markdown);
