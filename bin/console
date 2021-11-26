@@ -6,6 +6,7 @@ use Shopware\CoursewareCli\ChapterCreate;
 use Shopware\CoursewareCli\LessonCreate;
 use Shopware\CoursewareCli\FolderReorder;
 use Shopware\CoursewareCli\CoursePdf;
+use Shopware\CoursewareCli\CourseHtml;
 use Shopware\CoursewareCli\MarkdownPdf;
 use Symfony\Component\Console\Application;
 
@@ -14,5 +15,6 @@ $application->add(new LessonCreate);
 $application->add(new FolderReorder);
 $application->add(new ChapterCreate);
 $application->add(new CoursePdf);
+$application->add(new CourseHtml);
 $application->add(new MarkdownPdf);
 $application->run();

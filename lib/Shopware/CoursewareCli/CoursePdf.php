@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CoursePdf extends Command
+class CoursePdf extends CourseHtml
 {
     /**
      * Command definition
@@ -21,7 +21,7 @@ class CoursePdf extends Command
     protected function configure()
     {
         $this->setName('course:pdf')
-             ->setDescription('Create a PDF for a course')
+             ->setDescription('Create a PDF-file for a course')
              ->addArgument('path', InputArgument::REQUIRED, 'Course path');
     }
 
@@ -34,18 +34,9 @@ class CoursePdf extends Command
             return Command::FAILURE;
         }
 
-        $coursewareDir = Config::getInstance()->getCoursewareDir();
-        $course = Reader::getInstance()->getCourseById($path);
-        $htmlFile = $coursewareDir . '/' . $course->getId() . '/COURSEWARE.html';
-
-        $markdown = $course->getMarkdown();
-        $generatorConfig = new GeneratorConfig();
-        $html = (new HtmlGenerator($generatorConfig))->setEntity($course)->fromMarkdown($markdown);
-        file_put_contents($htmlFile, $html);
-
-        (new PdfGenerator($generatorConfig))->fromHtmlFile($htmlFile);
+        $htmlFile = $this->convertMarkdownToHtmlFile($path);
+        (new PdfGenerator($this->getGeneratorConfig()))->fromHtmlFile($htmlFile);
 
         return Command::SUCCESS;
     }
-
 }
